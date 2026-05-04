@@ -527,7 +527,7 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
     quick.style.display = 'flex';
     buttons.forEach(function (b) {
       var btn = $('button', { type: 'button' }, escapeHtml(b.label));
-      btn.onclick = function () { setQuickButtons([]); b.onClick(); };
+      btn.onclick = function () { b.onClick(); };
       quick.appendChild(btn);
     });
   }
