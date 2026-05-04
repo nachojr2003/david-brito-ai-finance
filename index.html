@@ -419,9 +419,15 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
     .dbr-quick { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 8px; background: ${LIGHT}; }
     .dbr-quick button { background: white; color: ${GREEN}; border: 1px solid ${GREEN}; border-radius: 16px; padding: 6px 12px; font-size: 13px; font-weight: 500; cursor: pointer; }
     .dbr-quick button:hover { background: ${GREEN}; color: ${GOLD}; }
-    .dbr-form { padding: 14px; background: white; border-top: 1px solid #e5e7eb; max-height: 60%; overflow-y: auto; }
-    .dbr-form-title { font-size: 13px; font-weight: 700; color: ${GREEN}; margin: 0 0 4px; }
+    .dbr-form { padding: 14px; background: white; border-top: 1px solid #e5e7eb; flex-shrink: 0; position: relative; }
+    .dbr-form-close { position: absolute; top: 8px; right: 10px; background: transparent; border: none; color: #9ca3af; width: 24px; height: 24px; border-radius: 4px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; }
+    .dbr-form-close:hover { background: #f3f4f6; color: ${GREEN}; }
+    .dbr-form-close svg { width: 14px; height: 14px; }
+    .dbr-form-title { font-size: 13px; font-weight: 700; color: ${GREEN}; margin: 0 22px 4px 0; }
     .dbr-form-sub { font-size: 12px; color: #6b7280; margin: 0 0 10px; }
+    .dbr-inline-cta { align-self: flex-start; background: ${GREEN}; color: ${GOLD}; border: none; border-radius: 10px; padding: 9px 14px; font-size: 13px; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 7px; box-shadow: 0 2px 6px rgba(15,41,33,.12); margin-top: -4px; font-family: inherit; }
+    .dbr-inline-cta:hover { background: #143A2E; }
+    .dbr-inline-cta svg { width: 14px; height: 14px; }
     .dbr-form input, .dbr-form textarea, .dbr-form select { width: 100%; box-sizing: border-box; padding: 9px 11px; border: 1px solid #d1d5db; border-radius: 8px; font-size: 13px; font-family: inherit; margin-bottom: 6px; }
     .dbr-form input:focus, .dbr-form textarea:focus, .dbr-form select:focus { border-color: ${GREEN}; outline: none; }
     .dbr-form textarea { resize: vertical; min-height: 60px; }
@@ -560,11 +566,26 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
       var responseText = data.output || data.response || 'Sin respuesta.';
       typeOn(typingEl, responseText, function () {
         var t = responseText.toLowerCase();
-        if (/\b(contactar|equipo|coordinar|asesor|reuni[oó]n|agendar|d[eé]jame tus datos|dejarme tus datos)\b/.test(t)) setTimeout(showLeadForm, 400);
+        if (/\b(contactar|equipo|coordinar|asesor|reuni[oó]n|agendar|d[eé]jame tus datos|dejarme tus datos)\b/.test(t)) addLeadCTA();
       });
     }).catch(function () {
       typingEl.innerHTML = '<em style="color:#b91c1c">Hubo un problema. Por favor intenta nuevamente.</em>';
     }).finally(function () { sending = false; sendBtn.disabled = false; scrollToBottom(); });
+  }
+
+  function addLeadCTA() {
+    if (formHost.querySelector('.dbr-form')) return;
+    if (messages.querySelector('.dbr-inline-cta[data-active="1"]')) return;
+    var btn = $('button', { class: 'dbr-inline-cta', type: 'button', 'data-active': '1' },
+      '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Agendar reunión');
+    btn.onclick = function () {
+      btn.removeAttribute('data-active');
+      btn.disabled = true;
+      btn.style.opacity = '.5';
+      showLeadForm();
+    };
+    messages.appendChild(btn);
+    scrollToBottom();
   }
 
   function showLeadForm() {
@@ -572,6 +593,7 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
     clearForm();
     var f = $('form', { class: 'dbr-form', autocomplete: 'on' });
     f.innerHTML =
+      '<button type="button" class="dbr-form-close" aria-label="Cerrar formulario" title="Cerrar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg></button>' +
       '<p class="dbr-form-title">Coordinemos una reunión con David</p>' +
       '<p class="dbr-form-sub">Diagnóstico de 30 min sin costo. David te contactará personalmente.</p>' +
       '<input class="hp" name="hp" tabindex="-1" autocomplete="off">' +
@@ -590,6 +612,7 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
       '<div class="dbr-form-actions"><button type="submit" class="submit">Solicitar reunión</button>' +
       '<button type="button" class="cancel">Cancelar</button></div>';
     f.querySelector('.cancel').onclick = clearForm;
+    f.querySelector('.dbr-form-close').onclick = clearForm;
     f.onsubmit = function (e) {
       e.preventDefault();
       var fd = new FormData(f);
