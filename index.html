@@ -330,7 +330,9 @@ window.dbritoAgentConfig = window.dbritoAgentConfig || {
   n8nBase:        'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io',
   timeoutMs:      45000,
   maxRetries:     1,
-  welcomeMessage: 'Hola, soy el asistente de IA de David Brito · AI Finance.\n\nDavid es CFO Externo y experto en finanzas corporativas con +7 años en banca (BBVA, Interbank). Te puedo ayudar a entender qué servicios encajan con tu empresa o coordinar una reunión.\n\n¿De qué tamaño es tu negocio o qué tema te trae por aquí?'
+  welcomeMessage: 'Hola, soy el asistente de IA de David Brito · AI Finance.\n\nDavid es CFO Externo y experto en finanzas corporativas con +7 años en banca (BBVA, Interbank). Te puedo ayudar a entender qué servicios encajan con tu empresa o coordinar una reunión.\n\n¿De qué tamaño es tu negocio o qué tema te trae por aquí?',
+  calendlyUrl:    'https://calendly.com/javier-vergara-ijvagency/30min',
+  whatsappNumber: '51951603568'
 };
 window.dbritoAgentConfig.webhook      = window.dbritoAgentConfig.webhook      || (window.dbritoAgentConfig.n8nBase + '/webhook/dbrito-agent');
 window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook || (window.dbritoAgentConfig.n8nBase + '/webhook/dbrito-leads');
@@ -452,6 +454,9 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
     .dbr-cta-text { font-size: 13px; line-height: 1.4; margin: 0 0 10px; }
     .dbr-cta a { display: inline-block; background: ${GOLD}; color: ${GREEN}; text-decoration: none; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: 13px; }
     .dbr-cta a:hover { background: #fff; }
+    .dbr-cta-alt { font-size: 12px; color: rgba(255,255,255,.75); margin: 10px 0 0; }
+    .dbr-cta-alt a { background: transparent !important; color: ${GOLD} !important; padding: 0 !important; font-weight: 600 !important; text-decoration: underline !important; }
+    .dbr-cta-alt a:hover { background: transparent !important; color: #fff !important; }
     .dbr-footer { padding: 8px 12px; background: white; text-align: center; font-size: 10px; line-height: 1.4; color: #999; border-top: 1px solid #f3f4f6; }
     .dbr-footer a { color: #888; text-decoration: underline; }
     .dbr-footer a:hover { color: ${GREEN}; }
@@ -627,9 +632,13 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
           var firstName = (body.nombre || '').split(' ')[0] || '';
           addMsg('bot', '¡Gracias' + (firstName ? ', ' + firstName : '') + '! Recibí tus datos. David te contactará en las próximas horas.');
           var cta = $('div', { class: 'dbr-cta' });
-          cta.innerHTML = '<p class="dbr-cta-title">¿Prefieres adelantarlo?</p>' +
-            '<p class="dbr-cta-text">Si quieres conversar ahora mismo, escríbele directo a David por WhatsApp.</p>' +
-            '<a href="https://wa.me/51951603568?text=Hola%20David%2C%20te%20escribo%20por%20el%20chat%20de%20la%20web" target="_blank" rel="noopener">WhatsApp David →</a>';
+          var calendlyHref = CFG.calendlyUrl || 'https://calendly.com/javier-vergara-ijvagency/30min';
+          var waHref = 'https://wa.me/' + (CFG.whatsappNumber || '51951603568') + '?text=Hola%20David%2C%20te%20escribo%20por%20el%20chat%20de%20la%20web';
+          cta.innerHTML =
+            '<p class="dbr-cta-title">Agenda directamente tu reunión</p>' +
+            '<p class="dbr-cta-text">Si prefieres reservar tú mismo el slot que mejor te acomode, abre el calendario y elige día y hora — es el camino más rápido.</p>' +
+            '<a href="' + calendlyHref + '" target="_blank" rel="noopener">Agendar 30 min →</a>' +
+            '<p class="dbr-cta-alt">o escríbele por <a href="' + waHref + '" target="_blank" rel="noopener">WhatsApp</a></p>';
           messages.appendChild(cta);
           scrollToBottom();
         })
