@@ -580,13 +580,15 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
 
   function addLeadCTA() {
     if (formHost.querySelector('.dbr-form')) return;
-    if (messages.querySelector('.dbr-inline-cta[data-active="1"]')) return;
+    // Desactiva cualquier CTA previo (si el usuario lo ignoró tipeando) y muestra uno fresco
+    var prev = messages.querySelectorAll('.dbr-inline-cta');
+    prev.forEach(function (p) { p.disabled = true; p.style.opacity = '.4'; p.removeAttribute('data-active'); });
     var btn = $('button', { class: 'dbr-inline-cta', type: 'button', 'data-active': '1' },
       '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Agendar reunión');
     btn.onclick = function () {
-      btn.removeAttribute('data-active');
       btn.disabled = true;
       btn.style.opacity = '.5';
+      btn.removeAttribute('data-active');
       showLeadForm();
     };
     messages.appendChild(btn);
