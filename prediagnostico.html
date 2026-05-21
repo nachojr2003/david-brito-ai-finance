@@ -21,7 +21,7 @@
   body { margin: 0; font-family: 'Outfit', system-ui, sans-serif; background: var(--bg); color: var(--texto); line-height: 1.5; }
   .header { background: var(--primario); color: #fff; padding: 28px 24px; }
   .header-inner { max-width: 820px; margin: 0 auto; display: flex; gap: 18px; align-items: center; }
-  .logo { width: 60px; height: 60px; background: #fff; border-radius: 10px; line-height: 60px; text-align: center; font-weight: 800; color: var(--primario); font-size: 11px; letter-spacing: 0.5px; flex-shrink: 0; }
+  .logo { width: 64px; height: 64px; background: #fff; border-radius: 10px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-weight: 800; color: var(--primario); font-size: 10px; line-height: 1.15; letter-spacing: 0.5px; flex-shrink: 0; }
   .logo .ai { color: var(--acento); }
   .header h1 { margin: 0; font-size: 22px; font-weight: 700; }
   .header .sub { font-size: 13px; color: var(--acento); margin-top: 4px; }
@@ -76,7 +76,7 @@
 
 <div class="header">
   <div class="header-inner">
-    <div class="logo">DAVID<br/>BRITO<br/><span class="ai">AI</span></div>
+    <div class="logo"><span>DAVID</span><span>BRITO</span><span class="ai">AI</span></div>
     <div>
       <h1>Prediagnóstico Financiero</h1>
       <div class="sub">Método AgroScale · David Brito · AI Finance</div>
