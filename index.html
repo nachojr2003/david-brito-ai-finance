@@ -330,8 +330,8 @@ window.dbritoAgentConfig = window.dbritoAgentConfig || {
   n8nBase:        'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io',
   timeoutMs:      45000,
   maxRetries:     1,
-  welcomeMessage: 'Hola, soy el asistente de IA de David Brito · AI Finance.\n\nDavid es CFO Externo y experto en finanzas corporativas con +7 años en banca (BBVA, Interbank). Te puedo ayudar a entender qué servicios encajan con tu empresa o coordinar una reunión.\n\n¿De qué tamaño es tu negocio o qué tema te trae por aquí?',
-  calendlyUrl:    'https://calendly.com/javier-vergara-ijvagency/30min',
+  welcomeMessage: 'Hola, soy el asistente de IA de David Brito · AI Finance.\n\nDavid ayuda a **agroexportadoras LATAM en expansión** a recuperar control financiero, operativo y bancario mediante el **Método AgroScale** — 7+ años en banca corporativa (BBVA, Interbank, USD 30M+ en cartera).\n\n¿En qué punto está tu empresa hoy?',
+  calendlyUrl:    'https://calendly.com/estrategia-dbaifinance',
   whatsappNumber: '51951603568'
 };
 window.dbritoAgentConfig.webhook      = window.dbritoAgentConfig.webhook      || (window.dbritoAgentConfig.n8nBase + '/webhook/dbrito-agent');
@@ -343,7 +343,7 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
     n8nBase:        'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io',
     timeoutMs:      45000,
     maxRetries:     1,
-    welcomeMessage: 'Hola, soy el asistente de IA de David Brito · AI Finance.\n\nDavid es CFO Externo y experto en finanzas corporativas con +7 años en banca (BBVA, Interbank). Te puedo ayudar a entender qué servicios encajan con tu empresa o coordinar una reunión.\n\n¿De qué tamaño es tu negocio o qué tema te trae por aquí?'
+    welcomeMessage: 'Hola, soy el asistente de IA de David Brito · AI Finance.\n\nDavid ayuda a **agroexportadoras LATAM en expansión** a recuperar control financiero, operativo y bancario mediante el **Método AgroScale** — 7+ años en banca corporativa (BBVA, Interbank, USD 30M+ en cartera).\n\n¿En qué punto está tu empresa hoy?'
   };
   var CFG = window.dbritoAgentConfig = window.dbritoAgentConfig || {};
   for (var __k in DEFAULTS) { if (CFG[__k] === undefined || CFG[__k] === null) CFG[__k] = DEFAULTS[__k]; }
@@ -542,9 +542,9 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
     messages.innerHTML = '';
     addMsg('bot', CFG.welcomeMessage);
     setQuickButtons([
-      { label: 'Servicios',           onClick: function () { sendMessage('Cuéntame qué servicios ofrecen'); } },
-      { label: 'Reestructurar deuda', onClick: function () { sendMessage('Quiero saber sobre reestructuración de pasivos'); } },
-      { label: 'Coordinar reunión',   onClick: function () { showLeadForm(); } }
+      { label: 'Soy agroexportador',  onClick: function () { sendMessage('Soy agroexportador y quiero saber cómo me puede ayudar el Método AgroScale'); } },
+      { label: 'Método AgroScale',    onClick: function () { sendMessage('Cuéntame en qué consiste el Método AgroScale'); } },
+      { label: 'Agendar prediagnóstico', onClick: function () { showLeadForm(); } }
     ]);
   }
 
@@ -634,7 +634,7 @@ window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook ||
           var firstName = (body.nombre || '').split(' ')[0] || '';
           addMsg('bot', '¡Gracias' + (firstName ? ', ' + firstName : '') + '! Recibí tus datos. David te contactará en las próximas horas.');
           var cta = $('div', { class: 'dbr-cta' });
-          var calendlyHref = CFG.calendlyUrl || 'https://calendly.com/javier-vergara-ijvagency/30min';
+          var calendlyHref = CFG.calendlyUrl || 'https://calendly.com/estrategia-dbaifinance';
           var waHref = 'https://wa.me/' + (CFG.whatsappNumber || '51951603568') + '?text=Hola%20David%2C%20te%20escribo%20por%20el%20chat%20de%20la%20web';
           cta.innerHTML =
             '<p class="dbr-cta-title">Agenda directamente tu reunión</p>' +

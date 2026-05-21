@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Prediagnóstico Financiero · David Brito · AI Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primario: #0F2921;
+    --acento: #ECBA55;
+    --dorado-dark: #BA800C;
+    --bg: #F5F8F6;
+    --texto: #1F2937;
+    --gris: #6B7280;
+    --borde: #E5E7EB;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Outfit', system-ui, sans-serif; background: var(--bg); color: var(--texto); line-height: 1.5; }
+  .header { background: var(--primario); color: #fff; padding: 28px 24px; }
+  .header-inner { max-width: 820px; margin: 0 auto; display: flex; gap: 18px; align-items: center; }
+  .logo { width: 60px; height: 60px; background: #fff; border-radius: 10px; line-height: 60px; text-align: center; font-weight: 800; color: var(--primario); font-size: 11px; letter-spacing: 0.5px; flex-shrink: 0; }
+  .logo .ai { color: var(--acento); }
+  .header h1 { margin: 0; font-size: 22px; font-weight: 700; }
+  .header .sub { font-size: 13px; color: var(--acento); margin-top: 4px; }
+  .container { max-width: 820px; margin: 0 auto; padding: 32px 24px 64px; }
+  .intro { background: #fff; border-radius: 12px; padding: 24px 28px; margin-bottom: 24px; box-shadow: 0 2px 12px rgba(15,41,33,0.06); border-left: 4px solid var(--acento); }
+  .intro p { margin: 0; color: var(--gris); font-size: 14px; }
+  .intro strong { color: var(--primario); }
+  form { background: #fff; border-radius: 12px; padding: 28px 32px; box-shadow: 0 2px 12px rgba(15,41,33,0.06); }
+  .section { margin-bottom: 32px; }
+  .section-title { color: var(--primario); font-size: 14px; font-weight: 600; letter-spacing: 0.8px; text-transform: uppercase; margin: 0 0 16px 0; padding-bottom: 8px; border-bottom: 2px solid var(--acento); }
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+  label { display: block; font-size: 13px; font-weight: 500; color: var(--primario); margin-bottom: 6px; }
+  label .req { color: #DC2626; margin-left: 2px; }
+  label .hint { font-weight: 400; color: var(--gris); font-size: 11px; margin-left: 6px; }
+  input[type=text], input[type=email], input[type=tel], input[type=number], select, textarea {
+    width: 100%; padding: 10px 12px; font-family: inherit; font-size: 14px; color: var(--texto);
+    border: 1px solid var(--borde); border-radius: 8px; background: #fff; transition: border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primario); box-shadow: 0 0 0 3px rgba(15,41,33,0.08); }
+  textarea { resize: vertical; min-height: 80px; }
+  .field { margin-bottom: 14px; }
+  .field-row { display: flex; align-items: flex-start; gap: 10px; margin: 12px 0; }
+  .field-row input[type=checkbox] { margin-top: 3px; flex-shrink: 0; }
+  .field-row label { margin: 0; font-weight: 400; font-size: 13px; color: var(--gris); }
+  .hp { position: absolute; left: -9999px; opacity: 0; pointer-events: none; }
+  .actions { display: flex; gap: 12px; justify-content: flex-end; margin-top: 8px; align-items: center; }
+  .btn { font-family: inherit; font-size: 14px; font-weight: 600; padding: 12px 24px; border-radius: 10px; border: none; cursor: pointer; transition: transform .1s, box-shadow .15s; }
+  .btn-primary { background: var(--primario); color: #fff; }
+  .btn-primary:hover { box-shadow: 0 4px 14px rgba(15,41,33,0.25); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .btn-secondary { background: transparent; color: var(--gris); }
+  .status { font-size: 13px; }
+  .status.error { color: #DC2626; }
+  .status.success { color: var(--primario); }
+  .success-screen { display: none; text-align: center; padding: 40px 20px; }
+  .success-screen.show { display: block; }
+  .success-screen h2 { color: var(--primario); font-size: 24px; margin: 0 0 12px; }
+  .success-screen p { color: var(--gris); font-size: 15px; margin: 0 0 24px; max-width: 540px; margin-left: auto; margin-right: auto; }
+  .success-cta { background: linear-gradient(135deg, var(--primario) 0%, #1a3d33 100%); color: #fff; padding: 24px; border-radius: 12px; margin-top: 24px; }
+  .success-cta h3 { color: var(--acento); margin: 0 0 8px; font-size: 16px; }
+  .success-cta p { color: #fff; opacity: 0.9; margin: 0 0 16px; }
+  .success-cta .btn { background: var(--acento); color: var(--primario); font-weight: 700; text-decoration: none; display: inline-block; padding: 12px 28px; }
+  .success-cta .btn:hover { background: #f5cb78; }
+  .footer { text-align: center; color: var(--gris); font-size: 12px; margin-top: 28px; }
+  .footer a { color: var(--dorado-dark); text-decoration: none; }
+  .badge { display: inline-block; background: rgba(236,186,85,0.18); color: var(--dorado-dark); padding: 2px 10px; border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.4px; text-transform: uppercase; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">DAVID<br/>BRITO<br/><span class="ai">AI</span></div>
+    <div>
+      <h1>Prediagnóstico Financiero</h1>
+      <div class="sub">Método AgroScale · David Brito · AI Finance</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="intro" id="intro">
+    <span class="badge">Antes de tu reunión</span>
+    <p>Completa este formulario con la información de tu empresa. Toma <strong>10 minutos aprox.</strong> Con estos datos, David llega a la reunión con un brief estructurado de tu caso (diagnóstico financiero, score crediticio, oportunidades concretas) — el tiempo de la reunión lo aprovechamos en decisiones, no en preguntas básicas. Toda la información es confidencial (Ley 29733).</p>
+  </div>
+
+  <form id="form" autocomplete="on">
+
+    <div class="section">
+      <h3 class="section-title">1. Datos de contacto</h3>
+      <div class="grid-2">
+        <div class="field"><label>Nombre completo<span class="req">*</span></label><input type="text" name="nombre_contacto" required maxlength="120" /></div>
+        <div class="field"><label>Cargo en la empresa</label><input type="text" name="cargo" maxlength="80" placeholder="Ej. Gerente General, CFO" /></div>
+        <div class="field"><label>Email<span class="req">*</span></label><input type="email" name="email" required maxlength="120" /></div>
+        <div class="field"><label>Celular / WhatsApp<span class="req">*</span></label><input type="tel" name="telefono" required maxlength="20" placeholder="+51 9XXXXXXXX" /></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">2. Datos de la empresa</h3>
+      <div class="grid-2">
+        <div class="field"><label>Razón social<span class="req">*</span></label><input type="text" name="razon_social" required maxlength="160" /></div>
+        <div class="field"><label>RUC</label><input type="text" name="ruc" maxlength="20" placeholder="20XXXXXXXXX" /></div>
+        <div class="field"><label>Antigüedad <span class="hint">(años de operación)</span></label><input type="text" name="antiguedad" maxlength="20" placeholder="Ej. 8 años" /></div>
+        <div class="field">
+          <label>¿Tu empresa es agroexportadora?<span class="req">*</span></label>
+          <select name="es_agroexportador" id="es_agro" required>
+            <option value="">Selecciona...</option>
+            <option value="si">Sí, exportamos productos agrícolas</option>
+            <option value="no">No, somos de otro sector</option>
+          </select>
+        </div>
+        <div class="field"><label>Trabajadores permanentes</label><input type="number" name="empleados_permanentes" min="0" max="9999" /></div>
+        <div class="field"><label>Trabajadores temporales <span class="hint">(en campaña)</span></label><input type="text" name="empleados_temporales" maxlength="60" placeholder="Ej. 120 en campaña" /></div>
+      </div>
+    </div>
+
+    <!-- Sección agro: visible solo si es_agro = si -->
+    <div class="section" id="section-agro" style="display:none;">
+      <h3 class="section-title">3. Datos sectoriales agro</h3>
+      <div class="grid-2">
+        <div class="field">
+          <label>Cultivo principal<span class="req">*</span></label>
+          <select name="sector_cultivo" id="sector_cultivo">
+            <option value="">Selecciona...</option>
+            <option value="Palto">Palto (Hass / Fuerte)</option>
+            <option value="Arándano">Arándano</option>
+            <option value="Uva de mesa">Uva de mesa</option>
+            <option value="Espárrago">Espárrago</option>
+            <option value="Cítricos">Cítricos</option>
+            <option value="Mango">Mango</option>
+            <option value="Banano">Banano orgánico</option>
+            <option value="Café">Café</option>
+            <option value="Cacao">Cacao</option>
+            <option value="Granos andinos">Granos andinos (quinua, kiwicha)</option>
+            <option value="Mix">Mix de cultivos</option>
+            <option value="Otro">Otro</option>
+          </select>
+        </div>
+        <div class="field"><label>Mix de cultivos <span class="hint">(si tienes varios)</span></label><input type="text" name="mix_cultivos" maxlength="200" placeholder="Ej. Palto 60% + Arándano 40%" /></div>
+        <div class="field"><label>Hectáreas propias</label><input type="text" name="hectareas_propias" maxlength="40" /></div>
+        <div class="field"><label>Hectáreas tercerizadas</label><input type="text" name="hectareas_tercerizadas" maxlength="40" /></div>
+        <div class="field" style="grid-column: 1/3;"><label>Mercados destino <span class="hint">(% por país si los conoces)</span></label><input type="text" name="mercados_destino" maxlength="200" placeholder="Ej. USA 55%, Europa 30%, Asia 15%" /></div>
+        <div class="field" style="grid-column: 1/3;"><label>Certificaciones</label><input type="text" name="certificaciones" maxlength="200" placeholder="Ej. GLOBALG.A.P., SMETA, Rainforest, BRC, orgánico" /></div>
+      </div>
+    </div>
+
+    <!-- Sección sector no-agro: visible solo si es_agro = no -->
+    <div class="section" id="section-noagro" style="display:none;">
+      <h3 class="section-title">3. Datos sectoriales</h3>
+      <div class="grid-2">
+        <div class="field" style="grid-column: 1/3;">
+          <label>Sector / actividad principal<span class="req">*</span></label>
+          <input type="text" name="sector_no_agro" id="sector_no_agro" maxlength="160" placeholder="Ej. Manufactura textil, servicios, retail, construcción..." />
+        </div>
+        <div class="field" style="grid-column: 1/3;"><label>Descripción breve del negocio</label><textarea name="descripcion_negocio" maxlength="600" placeholder="A qué se dedica tu empresa, qué vende, a quién"></textarea></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">4. Indicadores financieros</h3>
+      <div class="grid-3">
+        <div class="field"><label>Ventas anuales (USD)<span class="req">*</span></label><input type="text" name="ventas_anuales_usd" required maxlength="20" placeholder="Ej. 4500000" /></div>
+        <div class="field"><label>Margen bruto (%)</label><input type="text" name="margen_bruto_pct" maxlength="10" placeholder="Ej. 32" /></div>
+        <div class="field"><label>Margen EBITDA (%)</label><input type="text" name="margen_ebitda_pct" maxlength="10" placeholder="Ej. 14" /></div>
+        <div class="field"><label>Deuda total (USD)</label><input type="text" name="deuda_total" maxlength="20" /></div>
+        <div class="field"><label>Total activo (USD)</label><input type="text" name="total_activo" maxlength="20" /></div>
+        <div class="field"><label>Total pasivo (USD)</label><input type="text" name="total_pasivo" maxlength="20" /></div>
+        <div class="field" style="grid-column: 1/4;"><label>Patrimonio (USD)</label><input type="text" name="patrimonio" maxlength="20" /></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">5. Activos y pasivos — descripción</h3>
+      <div class="field"><label>Activos libres <span class="hint">(inmuebles, planta, maquinaria, vehículos sin cargas)</span></label><textarea name="activos_libres" maxlength="800" placeholder="Ej. Fundo en Ica de 180 ha libre de cargas. Planta de proceso propia. 4 camiones refrigerados libres."></textarea></div>
+      <div class="field"><label>Estructura de pasivos <span class="hint">(acreedores, montos, tasas, plazos)</span></label><textarea name="estructura_pasivos" maxlength="800" placeholder="Ej. BCP crédito pre-embarque USD 800K TEA 11%, Interbank capital trabajo USD 600K TEA 13%, leasing Scotiabank USD 400K..."></textarea></div>
+    </div>
+
+    <div class="section" id="section-campana" style="display:none;">
+      <h3 class="section-title">6. Campaña actual</h3>
+      <div class="grid-3">
+        <div class="field"><label>Hectáreas en producción</label><input type="text" name="campana_hectareas" maxlength="40" /></div>
+        <div class="field"><label>Mes pico de cosecha</label><input type="text" name="campana_mes_pico" maxlength="60" placeholder="Ej. Mayo–Julio" /></div>
+        <div class="field"><label>Capital de trabajo requerido (USD)</label><input type="text" name="campana_capital_requerido" maxlength="20" /></div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3 class="section-title">7. Objetivo de financiamiento</h3>
+      <div class="grid-3">
+        <div class="field"><label>Monto buscado (USD)</label><input type="text" name="financiamiento_monto" maxlength="20" /></div>
+        <div class="field"><label>Plazo deseado</label><input type="text" name="financiamiento_plazo" maxlength="40" placeholder="Ej. 12 meses, 3 años" /></div>
+        <div class="field"><label>Destino del crédito</label><input type="text" name="financiamiento_destino" maxlength="120" placeholder="Ej. Capital de trabajo, expansión, refinanciamiento" /></div>
+      </div>
+      <div class="field"><label>Comentarios adicionales <span class="hint">(opcional)</span></label><textarea name="comentarios" maxlength="800" placeholder="¿Hay algo más que David deba saber antes de la reunión?"></textarea></div>
+    </div>
+
+    <input type="text" name="hp" class="hp" tabindex="-1" autocomplete="off" />
+
+    <div class="field-row">
+      <input type="checkbox" id="check_terms" required />
+      <label for="check_terms">Autorizo el tratamiento de mis datos para fines comerciales y de comunicación, conforme a la <a href="#" style="color:var(--dorado-dark);">Política de Privacidad</a> (Ley 29733).</label>
+    </div>
+
+    <div class="actions">
+      <span class="status" id="status"></span>
+      <button type="submit" class="btn btn-primary" id="submitBtn">Enviar y continuar</button>
+    </div>
+
+  </form>
+
+  <div class="success-screen" id="success">
+    <h2>¡Gracias! Recibimos tu información.</h2>
+    <p>Tu prediagnóstico se está generando. David lo va a revisar antes de tu reunión para llegar con un análisis estructurado de tu caso. Te contactaremos en las próximas horas para coordinar fecha y hora.</p>
+    <div class="success-cta">
+      <h3>Agenda directamente tu prediagnóstico de 50 min</h3>
+      <p>Si prefieres, agenda directo un slot — es el camino más rápido para que David te diagnostique y te arme una propuesta a medida.</p>
+      <a href="https://calendly.com/estrategia-dbaifinance" class="btn">Agendar prediagnóstico →</a>
+    </div>
+  </div>
+
+  <div class="footer">
+    © David Brito · AI Finance — Powered by <a href="https://ijvagency.com/" target="_blank" rel="noopener">IJV Agency</a>
+  </div>
+
+</div>
+
+<script>
+(function() {
+  var WEBHOOK = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io/webhook/dbrito-brief-n3';
+
+  var $form = document.getElementById('form');
+  var $status = document.getElementById('status');
+  var $btn = document.getElementById('submitBtn');
+  var $success = document.getElementById('success');
+  var $intro = document.getElementById('intro');
+  var $esAgro = document.getElementById('es_agro');
+  var $secAgro = document.getElementById('section-agro');
+  var $secNoAgro = document.getElementById('section-noagro');
+  var $secCampana = document.getElementById('section-campana');
+  var $sectorCultivo = document.getElementById('sector_cultivo');
+  var $sectorNoAgro = document.getElementById('sector_no_agro');
+
+  function toggleSections() {
+    var val = $esAgro.value;
+    if (val === 'si') {
+      $secAgro.style.display = 'block';
+      $secNoAgro.style.display = 'none';
+      $secCampana.style.display = 'block';
+      $sectorCultivo.setAttribute('required', 'required');
+      $sectorNoAgro.removeAttribute('required');
+    } else if (val === 'no') {
+      $secAgro.style.display = 'none';
+      $secNoAgro.style.display = 'block';
+      $secCampana.style.display = 'none';
+      $sectorCultivo.removeAttribute('required');
+      $sectorNoAgro.setAttribute('required', 'required');
+    } else {
+      $secAgro.style.display = 'none';
+      $secNoAgro.style.display = 'none';
+      $secCampana.style.display = 'none';
+      $sectorCultivo.removeAttribute('required');
+      $sectorNoAgro.removeAttribute('required');
+    }
+  }
+  $esAgro.addEventListener('change', toggleSections);
+
+  $form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if ($form.hp.value) return; // honeypot
+    var data = {};
+    Array.prototype.forEach.call($form.elements, function(el) {
+      if (!el.name || el.name === 'hp') return;
+      if (el.type === 'checkbox') data[el.name] = el.checked;
+      else data[el.name] = (el.value || '').trim();
+    });
+
+    $btn.disabled = true;
+    $status.textContent = 'Enviando...';
+    $status.className = 'status';
+
+    fetch(WEBHOOK, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function(r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    })
+    .then(function(res) {
+      $form.style.display = 'none';
+      $intro.style.display = 'none';
+      $success.classList.add('show');
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    })
+    .catch(function(err) {
+      $status.textContent = 'Hubo un problema al enviar. Intenta de nuevo o escríbenos a dr.britos79@gmail.com';
+      $status.className = 'status error';
+      $btn.disabled = false;
+    });
+  });
+})();
+</script>
+
+</body>
+</html>

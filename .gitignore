@@ -5,3 +5,18 @@ node_modules/
 .wrangler/
 .DS_Store
 *.log
+
+# Material confidencial del cliente — nunca subir al repo público
+CLAUDE.md
+1. Manual de identidad corporativa/
+2.Templates /
+3.Servicios (CORE)/
+presentacion-reunion.html
+
+# Scraping inicial del sitio Lovable
+DavidBrito_AIFinance.html
+DavidBrito_AIFinance_files/
+
+# Screenshots locales
+Screenshot *.png
+*.HEIC
