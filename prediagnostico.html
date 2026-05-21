@@ -86,8 +86,8 @@
 
 <div class="container">
   <div class="intro" id="intro">
-    <span class="badge">Antes de tu reunión</span>
-    <p>Completa este formulario con la información de tu empresa. Toma <strong>10 minutos aprox.</strong> Con estos datos, David llega a la reunión con un brief estructurado de tu caso (diagnóstico financiero, score crediticio, oportunidades concretas) — el tiempo de la reunión lo aprovechamos en decisiones, no en preguntas básicas. Toda la información es confidencial (Ley 29733).</p>
+    <span class="badge" id="introBadge">Antes de tu reunión</span>
+    <p id="introText">Completa este formulario con la información de tu empresa. Toma <strong>10 minutos aprox.</strong> Con estos datos, David llega a la reunión con un brief estructurado de tu caso (diagnóstico financiero, score crediticio, oportunidades concretas) — el tiempo de la reunión lo aprovechamos en decisiones, no en preguntas básicas. Toda la información es confidencial (Ley 29733).</p>
   </div>
 
   <form id="form" autocomplete="on">
@@ -246,6 +246,54 @@
   var $secCampana = document.getElementById('section-campana');
   var $sectorCultivo = document.getElementById('sector_cultivo');
   var $sectorNoAgro = document.getElementById('sector_no_agro');
+
+  // ─── Autocompletar desde query params (post-redirect de Calendly) ───
+  function getParam(name) {
+    try {
+      var url = new URL(window.location.href);
+      return (url.searchParams.get(name) || '').trim();
+    } catch (e) { return ''; }
+  }
+  var qEmail = getParam('email');
+  var qNombre = getParam('nombre') || getParam('name') || getParam('invitee_full_name');
+  var qSource = getParam('source') || (qEmail || qNombre ? 'calendly' : '');
+
+  if (qNombre) {
+    var elN = $form.querySelector('input[name="nombre_contacto"]');
+    if (elN && !elN.value) elN.value = qNombre;
+  }
+  if (qEmail) {
+    var elE = $form.querySelector('input[name="email"]');
+    if (elE && !elE.value) elE.value = qEmail;
+  }
+  // Guardar el source para que llegue al brief y David sepa por dónde entró el lead
+  if (qSource) {
+    var elS = document.createElement('input');
+    elS.type = 'hidden';
+    elS.name = 'source';
+    elS.value = qSource;
+    $form.appendChild(elS);
+  }
+
+  // Banner contextual si viene de Calendly
+  if (qSource === 'calendly' || qEmail || qNombre) {
+    var primerNombre = (qNombre || '').split(' ')[0];
+    var $introBadge = document.getElementById('introBadge');
+    var $introText = document.getElementById('introText');
+    var $introDiv = document.getElementById('intro');
+    if ($introBadge) {
+      $introBadge.textContent = 'Tu reunion esta agendada';
+      $introBadge.style.background = 'rgba(15,41,33,0.10)';
+      $introBadge.style.color = '#0F2921';
+    }
+    if ($introText) {
+      $introText.innerHTML = '<strong>Listo' + (primerNombre ? ', ' + primerNombre : '') + ' — tu prediagnostico esta confirmado.</strong> Para que David llegue preparado a la reunion, completa este formulario con la informacion de tu empresa. Toma <strong>10 minutos aprox.</strong> Con estos datos, David te recibe en la reunion con un brief estructurado (diagnostico financiero, oportunidades concretas, recomendacion de servicio) — aprovechamos la reunion en decisiones, no en preguntas basicas. Toda la informacion es confidencial (Ley 29733).';
+    }
+    if ($introDiv) {
+      $introDiv.style.borderLeftColor = '#0F2921';
+    }
+  }
+  // ───────────────────────────────────────────────────────────────────
 
   function toggleSections() {
     var val = $esAgro.value;
