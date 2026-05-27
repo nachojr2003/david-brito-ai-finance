@@ -257,6 +257,7 @@
   var qEmail = getParam('email');
   var qNombre = getParam('nombre') || getParam('name') || getParam('invitee_full_name');
   var qSource = getParam('source') || (qEmail || qNombre ? 'calendly' : '');
+  var qMeetingTime = getParam('meeting_time') || getParam('event_start_time');
 
   if (qNombre) {
     var elN = $form.querySelector('input[name="nombre_contacto"]');
@@ -292,6 +293,27 @@
     if ($introDiv) {
       $introDiv.style.borderLeftColor = '#0F2A22';
     }
+
+    // Dispara landing webhook (una sola vez por sesión) para arrancar el tracking de recordatorios
+    try {
+      var LANDING_WEBHOOK = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io/webhook/dbrito-landing';
+      var landingKey = 'dbrito_landing_' + (qEmail || '').toLowerCase();
+      if (qEmail && !sessionStorage.getItem(landingKey)) {
+        fetch(LANDING_WEBHOOK, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: qEmail,
+            nombre: qNombre,
+            meeting_time: qMeetingTime,
+            source: qSource
+          }),
+          keepalive: true
+        }).then(function() {
+          sessionStorage.setItem(landingKey, '1');
+        }).catch(function() { /* fail silently */ });
+      }
+    } catch (e) { /* no-op */ }
   }
   // ───────────────────────────────────────────────────────────────────
 
