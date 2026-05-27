@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Política de Privacidad · David Brito · AI Finance</title>
+<meta name="description" content="Política de protección de datos personales de David Brito · AI Finance, conforme a la Ley N° 29733 de Protección de Datos Personales del Perú." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primario: #0F2A22;
+    --acento: #EBBA58;
+    --dorado-dark: #BA800C;
+    --bg: #F5F8F6;
+    --texto: #1F2937;
+    --gris: #6B7280;
+    --borde: #E5E7EB;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Outfit', system-ui, sans-serif; background: var(--bg); color: var(--texto); line-height: 1.65; }
+
+  /* Header */
+  .header { background: var(--primario); color: #fff; padding: 32px 24px; }
+  .header-inner { max-width: 880px; margin: 0 auto; display: flex; gap: 20px; align-items: center; }
+  .logo-box { width: 76px; height: 60px; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 6px; flex-shrink: 0; }
+  .logo-box img { display: block; width: 100%; height: auto; max-height: 48px; object-fit: contain; }
+  .header h1 { margin: 0; font-size: 24px; font-weight: 700; letter-spacing: -0.2px; }
+  .header .sub { font-size: 13px; color: var(--acento); margin-top: 4px; font-weight: 500; }
+  .header .lead { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 6px; }
+
+  /* Container */
+  .container { max-width: 880px; margin: 0 auto; padding: 36px 24px 64px; }
+
+  /* TOC */
+  .toc { background: #fff; border-radius: 12px; padding: 20px 26px; margin-bottom: 28px; box-shadow: 0 2px 10px rgba(15,42,34,0.05); border-left: 4px solid var(--acento); }
+  .toc-title { font-size: 12px; font-weight: 600; color: var(--gris); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 12px; }
+  .toc ol { margin: 0; padding-left: 22px; columns: 2; column-gap: 28px; }
+  .toc li { padding: 3px 0; font-size: 14px; }
+  .toc a { color: var(--primario); text-decoration: none; }
+  .toc a:hover { color: var(--dorado-dark); text-decoration: underline; }
+  @media (max-width: 640px) { .toc ol { columns: 1; } }
+
+  /* Sections */
+  section { background: #fff; border-radius: 12px; padding: 24px 28px; margin-bottom: 16px; box-shadow: 0 2px 10px rgba(15,42,34,0.05); scroll-margin-top: 24px; }
+  h2 { color: var(--primario); font-size: 19px; font-weight: 700; margin: 0 0 12px 0; display: flex; align-items: center; gap: 12px; padding-bottom: 8px; border-bottom: 2px solid var(--acento); }
+  h2 .num { background: var(--primario); color: var(--acento); width: 30px; height: 30px; border-radius: 8px; line-height: 30px; text-align: center; font-size: 13px; font-weight: 800; flex-shrink: 0; }
+  h3 { color: var(--primario); font-size: 15px; font-weight: 600; margin: 18px 0 6px 0; }
+  p { margin: 0 0 12px 0; }
+  ul, ol { margin: 0 0 12px 0; padding-left: 22px; }
+  li { margin: 4px 0; }
+  strong { color: var(--primario); }
+
+  /* Table */
+  table.data-table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 14px; border-radius: 8px; overflow: hidden; }
+  table.data-table th { background: var(--primario); color: #fff; padding: 10px 14px; text-align: left; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; }
+  table.data-table td { padding: 10px 14px; border-bottom: 1px solid var(--borde); vertical-align: top; }
+  table.data-table tr:last-child td { border-bottom: none; }
+
+  /* Highlight */
+  .highlight { background: #FFF4DC; border-left: 4px solid var(--dorado-dark); padding: 14px 18px; border-radius: 8px; margin: 14px 0; font-size: 13px; color: var(--primario); }
+
+  .contact-card { background: var(--primario); color: #fff; border-radius: 10px; padding: 18px 22px; margin: 14px 0; }
+  .contact-card strong { color: var(--acento); }
+  .contact-card a { color: var(--acento); text-decoration: none; }
+
+  /* Footer */
+  footer { text-align: center; color: var(--gris); font-size: 12px; margin-top: 28px; padding: 18px 0; }
+  footer a { color: var(--dorado-dark); text-decoration: none; }
+
+  .meta-line { font-size: 12px; color: var(--gris); padding: 12px 0; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+
+  a { color: var(--dorado-dark); }
+  a:hover { color: var(--primario); }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-box"><img src="/Logo1.png" alt="David Brito AI Finance" /></div>
+    <div>
+      <h1>Política de Privacidad</h1>
+      <div class="sub">David Brito · AI Finance</div>
+      <div class="lead">Conforme a la Ley N° 29733 — Ley de Protección de Datos Personales del Perú</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div class="meta-line">
+    <span><strong>Última actualización:</strong> 27 de mayo de 2026</span>
+    <span><strong>Versión:</strong> 1.0</span>
+  </div>
+
+  <div class="toc">
+    <div class="toc-title">Contenido</div>
+    <ol>
+      <li><a href="#s1">Identidad del responsable</a></li>
+      <li><a href="#s2">Datos personales que recopilamos</a></li>
+      <li><a href="#s3">Finalidades del tratamiento</a></li>
+      <li><a href="#s4">Base legal del tratamiento</a></li>
+      <li><a href="#s5">Encargados del tratamiento y transferencias</a></li>
+      <li><a href="#s6">Plazos de conservación</a></li>
+      <li><a href="#s7">Derechos del titular (ARCO)</a></li>
+      <li><a href="#s8">Medidas de seguridad</a></li>
+      <li><a href="#s9">Menores de edad</a></li>
+      <li><a href="#s10">Modificaciones a esta política</a></li>
+      <li><a href="#s11">Contacto y reclamaciones</a></li>
+    </ol>
+  </div>
+
+  <section id="s1">
+    <h2><span class="num">1</span>Identidad del responsable del tratamiento</h2>
+    <p>El responsable del tratamiento de los datos personales recopilados a través del sitio web <strong>drbrito-ai.vercel.app</strong> y sus formularios asociados es:</p>
+    <div class="contact-card">
+      <strong>VCONN S.A.C.</strong><br>
+      RUC: 20611177977<br>
+      Marca comercial: David Brito · AI Finance<br>
+      Domicilio fiscal: Lima, Perú<br>
+      Correo de contacto: <a href="mailto:dbritobaifinance@gmail.com">dbritobaifinance@gmail.com</a>
+    </div>
+    <p>VCONN S.A.C. ("nosotros", "la empresa" o "el responsable") declara cumplir con la <strong>Ley N° 29733 — Ley de Protección de Datos Personales</strong> y su Reglamento aprobado por <strong>Decreto Supremo N° 003-2013-JUS</strong>, así como con las disposiciones emitidas por la <strong>Autoridad Nacional de Protección de Datos Personales (ANPDP)</strong> del Ministerio de Justicia y Derechos Humanos del Perú.</p>
+  </section>
+
+  <section id="s2">
+    <h2><span class="num">2</span>Datos personales que recopilamos</h2>
+    <p>Recopilamos las siguientes categorías de datos personales únicamente con tu consentimiento previo, expreso e informado:</p>
+
+    <table class="data-table">
+      <thead><tr><th>Categoría</th><th>Datos específicos</th><th>Fuente</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Datos de identificación y contacto</strong></td>
+          <td>Nombre completo, cargo, correo electrónico, número de celular o WhatsApp</td>
+          <td>Formularios web · agendamiento Calendly</td>
+        </tr>
+        <tr>
+          <td><strong>Datos de empresa</strong></td>
+          <td>Razón social, RUC, antigüedad, sector económico, número de trabajadores</td>
+          <td>Formulario empresarial de prediagnóstico</td>
+        </tr>
+        <tr>
+          <td><strong>Datos financieros y operativos</strong></td>
+          <td>Ventas anuales, márgenes (bruto, EBITDA), deuda total, balance, estructura de pasivos, activos libres, objetivos de financiamiento</td>
+          <td>Formulario empresarial de prediagnóstico</td>
+        </tr>
+        <tr>
+          <td><strong>Datos sectoriales (solo agroexportación)</strong></td>
+          <td>Cultivos, hectáreas, mercados destino, certificaciones</td>
+          <td>Formulario empresarial</td>
+        </tr>
+        <tr>
+          <td><strong>Datos de interacción con el chat IA</strong></td>
+          <td>Mensajes intercambiados con el asistente, identificador de sesión, dirección IP, origen del tráfico, fecha y hora</td>
+          <td>Chat embebido en el sitio web · canales digitales</td>
+        </tr>
+        <tr>
+          <td><strong>Datos crediticios externos</strong></td>
+          <td>Score crediticio, clasificación SBS, comportamiento de pago, deudas reportadas</td>
+          <td>Consulta a centrales de riesgo (Sentinel / Equifax) previa autorización del titular</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="highlight">
+      <strong>Importante:</strong> los datos financieros y crediticios son tratados con confidencialidad reforzada y se utilizan exclusivamente para los fines descritos en la sección 3 de esta política.
+    </div>
+  </section>
+
+  <section id="s3">
+    <h2><span class="num">3</span>Finalidades del tratamiento</h2>
+    <p>Los datos personales son tratados exclusivamente para las siguientes finalidades:</p>
+    <ol>
+      <li><strong>Atender consultas y solicitudes comerciales</strong> recibidas a través del chat web, formularios, redes sociales (Instagram, WhatsApp, Messenger), correo o canales similares.</li>
+      <li><strong>Generar un brief financiero automatizado pre-reunión</strong> mediante inteligencia artificial, a partir de los datos voluntariamente compartidos en el formulario empresarial de prediagnóstico.</li>
+      <li><strong>Programar, confirmar y dar seguimiento</strong> a reuniones de prediagnóstico financiero y reuniones posteriores acordadas con el titular.</li>
+      <li><strong>Verificar la información financiera</strong> declarada mediante consulta a centrales de riesgo externas, previa autorización expresa.</li>
+      <li><strong>Emitir y entregar propuestas comerciales</strong> de servicios financieros (plantillas, planes de negocio, planes financieros bancarios, estructuración de deuda, Método AgroScale, etc.).</li>
+      <li><strong>Ejecutar y prestar los servicios contratados</strong>, incluyendo el envío de entregables, reportes mensuales, dashboards y comunicaciones operativas.</li>
+      <li><strong>Enviar comunicaciones comerciales</strong> sobre nuevos servicios, contenido educativo o invitaciones a eventos, siempre que el titular haya brindado su consentimiento.</li>
+      <li><strong>Cumplir con obligaciones legales, tributarias y contables</strong> propias del ejercicio de la actividad económica.</li>
+      <li><strong>Mejorar la calidad del servicio</strong> mediante análisis interno agregado y anonimizado del comportamiento de los usuarios en el sitio y los canales digitales.</li>
+    </ol>
+    <p>El tratamiento de los datos para finalidades distintas a las aquí descritas requerirá una nueva autorización expresa del titular.</p>
+  </section>
+
+  <section id="s4">
+    <h2><span class="num">4</span>Base legal del tratamiento</h2>
+    <p>El tratamiento de los datos personales se sustenta en una o más de las siguientes bases legales:</p>
+    <ul>
+      <li><strong>Consentimiento libre, expreso, previo, informado e inequívoco</strong> del titular, otorgado al aceptar esta Política de Privacidad y al brindar sus datos en los formularios respectivos (Art. 13 y 18 de la Ley N° 29733).</li>
+      <li><strong>Ejecución de un contrato</strong> o medidas precontractuales solicitadas por el titular, cuando aplique.</li>
+      <li><strong>Cumplimiento de una obligación legal</strong> a la que esté sujeta VCONN S.A.C.</li>
+      <li><strong>Interés legítimo</strong> en mantener un canal de comunicación comercial activo con clientes y prospectos, sin afectar derechos fundamentales del titular.</li>
+    </ul>
+  </section>
+
+  <section id="s5">
+    <h2><span class="num">5</span>Encargados del tratamiento y transferencias internacionales</h2>
+    <p>Para prestar el servicio, VCONN S.A.C. utiliza proveedores tecnológicos que actúan como <strong>encargados del tratamiento</strong>. Estos proveedores pueden almacenar o procesar datos personales fuera del Perú. Todas las transferencias internacionales se realizan a países o entidades que ofrecen un nivel adecuado de protección de datos personales, conforme al Art. 11 de la Ley N° 29733 y a las garantías contractuales correspondientes.</p>
+
+    <table class="data-table">
+      <thead><tr><th>Encargado</th><th>Finalidad</th><th>País / Región</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Google LLC</strong></td><td>Modelos de lenguaje (Gemini) para generación de brief financiero · Gmail para envío de correos transaccionales</td><td>Estados Unidos</td></tr>
+        <tr><td><strong>Google Cloud Platform</strong></td><td>Infraestructura de hosting para automatizaciones</td><td>Estados Unidos / Sudamérica</td></tr>
+        <tr><td><strong>Vercel Inc.</strong></td><td>Hosting estático del sitio web</td><td>Estados Unidos</td></tr>
+        <tr><td><strong>Calendly LLC</strong></td><td>Agendamiento de reuniones</td><td>Estados Unidos</td></tr>
+        <tr><td><strong>Yape · BCP</strong></td><td>Procesamiento del pago del prediagnóstico</td><td>Perú</td></tr>
+        <tr><td><strong>Equifax Perú / Sentinel</strong></td><td>Consulta de centrales de riesgo (previa autorización expresa)</td><td>Perú</td></tr>
+        <tr><td><strong>IJV Agency</strong></td><td>Operación técnica y mantenimiento del sistema de agentes IA, en calidad de proveedor tecnológico</td><td>Perú</td></tr>
+      </tbody>
+    </table>
+
+    <p>Cada uno de estos encargados ha asumido, mediante términos de servicio o acuerdos específicos, el compromiso de tratar los datos personales únicamente para las finalidades indicadas por VCONN S.A.C. y de implementar medidas de seguridad apropiadas.</p>
+  </section>
+
+  <section id="s6">
+    <h2><span class="num">6</span>Plazos de conservación</h2>
+    <p>Los datos personales se conservan durante los plazos estrictamente necesarios para cumplir las finalidades para las que fueron recopilados:</p>
+    <ul>
+      <li><strong>Datos de clientes activos:</strong> durante toda la vigencia de la relación comercial y hasta <strong>cinco (5) años</strong> después de su finalización, por motivos de cumplimiento tributario y contractual.</li>
+      <li><strong>Datos de prospectos que no concretan contrato:</strong> hasta <strong>tres (3) años</strong> desde el último contacto, salvo que el titular solicite su eliminación antes.</li>
+      <li><strong>Mensajes intercambiados con el chat IA:</strong> hasta <strong>noventa (90) días</strong>, con fines de mejora del servicio. Después se anonimizan o eliminan.</li>
+      <li><strong>Datos requeridos para fines tributarios o contables:</strong> el plazo establecido por la normativa aplicable (mínimo cinco años).</li>
+    </ul>
+    <p>Vencidos los plazos, los datos serán eliminados de forma segura o, en su caso, anonimizados de manera irreversible.</p>
+  </section>
+
+  <section id="s7">
+    <h2><span class="num">7</span>Derechos del titular — ARCO+</h2>
+    <p>Como titular de los datos personales, te asisten los siguientes derechos contemplados en la Ley N° 29733:</p>
+    <ul>
+      <li><strong>Acceso:</strong> conocer qué datos tuyos tratamos, su origen y las finalidades del tratamiento.</li>
+      <li><strong>Rectificación:</strong> corregir datos inexactos, incompletos o desactualizados.</li>
+      <li><strong>Cancelación (supresión):</strong> solicitar la eliminación de tus datos cuando ya no sean necesarios o cuando revoques tu consentimiento.</li>
+      <li><strong>Oposición:</strong> oponerte al tratamiento de tus datos por motivos legítimos, incluyendo el envío de comunicaciones comerciales.</li>
+      <li><strong>Información:</strong> conocer las cesiones, encargados y transferencias que realizamos con tus datos.</li>
+      <li><strong>Revocación del consentimiento:</strong> retirar tu autorización en cualquier momento, sin efectos retroactivos.</li>
+      <li><strong>Tratamiento objetivo:</strong> oponerte a decisiones automatizadas que produzcan efectos jurídicos sobre ti o te afecten significativamente.</li>
+    </ul>
+    <p>Para ejercer cualquiera de estos derechos puedes escribirnos a <strong><a href="mailto:dbritobaifinance@gmail.com">dbritobaifinance@gmail.com</a></strong> indicando tu nombre completo, tipo y número de documento de identidad y el derecho que deseas ejercer. La empresa responderá tu solicitud dentro de los plazos legales aplicables (máximo veinte (20) días hábiles para acceso, y diez (10) días hábiles para rectificación, cancelación u oposición).</p>
+    <p>Si consideras que tus derechos no han sido atendidos correctamente, puedes presentar un reclamo ante la <strong>Autoridad Nacional de Protección de Datos Personales (ANPDP)</strong> del Ministerio de Justicia y Derechos Humanos del Perú.</p>
+  </section>
+
+  <section id="s8">
+    <h2><span class="num">8</span>Medidas de seguridad</h2>
+    <p>VCONN S.A.C. implementa medidas técnicas, organizativas y legales razonables para proteger los datos personales contra accesos no autorizados, pérdida, alteración o divulgación indebida. Entre las medidas principales se encuentran:</p>
+    <ul>
+      <li>Cifrado en tránsito (HTTPS / TLS) y en reposo cuando aplica.</li>
+      <li>Accesos restringidos a los datos por roles y necesidad operativa.</li>
+      <li>Autenticación segura para todos los proveedores tecnológicos.</li>
+      <li>Auditorías periódicas de los flujos de datos automatizados.</li>
+      <li>Compromiso contractual de confidencialidad con los encargados del tratamiento.</li>
+      <li>Eliminación segura de datos al vencer los plazos de conservación.</li>
+    </ul>
+    <p>Ningún sistema de información es completamente invulnerable. En el remoto caso de detectar un incidente de seguridad que pudiera afectar tus datos personales, VCONN S.A.C. notificará al titular y a la autoridad competente conforme a la legislación aplicable.</p>
+  </section>
+
+  <section id="s9">
+    <h2><span class="num">9</span>Menores de edad</h2>
+    <p>El servicio de David Brito · AI Finance está dirigido exclusivamente a personas mayores de edad y a representantes legales de personas jurídicas. <strong>No recopilamos intencionalmente datos personales de menores de edad.</strong> Si tomamos conocimiento de que se han recopilado datos de un menor sin la debida autorización, procederemos a eliminarlos de manera inmediata.</p>
+  </section>
+
+  <section id="s10">
+    <h2><span class="num">10</span>Modificaciones a esta política</h2>
+    <p>VCONN S.A.C. se reserva el derecho de modificar esta Política de Privacidad para reflejar cambios legales, técnicos u operativos. Cualquier modificación será publicada en esta misma página, indicando la fecha de última actualización. Cuando los cambios sean sustanciales y afecten derechos de los titulares, se solicitará un nuevo consentimiento expreso.</p>
+    <p>Te recomendamos revisar periódicamente esta política para mantenerte informado de cualquier actualización.</p>
+  </section>
+
+  <section id="s11">
+    <h2><span class="num">11</span>Contacto y reclamaciones</h2>
+    <p>Si tienes preguntas, solicitudes o reclamaciones relacionadas con el tratamiento de tus datos personales, puedes contactarnos a través de:</p>
+    <div class="contact-card">
+      <strong>VCONN S.A.C. — David Brito · AI Finance</strong><br>
+      Correo electrónico: <a href="mailto:dbritobaifinance@gmail.com">dbritobaifinance@gmail.com</a><br>
+      Instagram: <a href="https://instagram.com/davidbrito.aifinance" target="_blank" rel="noopener">@davidbrito.aifinance</a><br>
+      Domicilio: Lima, Perú
+    </div>
+    <p>De manera complementaria, puedes contactarte con la <strong>Autoridad Nacional de Protección de Datos Personales (ANPDP)</strong>:</p>
+    <ul>
+      <li>Web: <a href="https://www.gob.pe/anpd" target="_blank" rel="noopener">https://www.gob.pe/anpd</a></li>
+      <li>Sede: Ministerio de Justicia y Derechos Humanos, Lima, Perú.</li>
+    </ul>
+  </section>
+
+  <footer>
+    © VCONN S.A.C. — David Brito · AI Finance · RUC 20611177977 — Powered by <a href="https://ijvagency.com/" target="_blank" rel="noopener">IJV Agency</a>
+  </footer>
+
+</div>
+</body>
+</html>
