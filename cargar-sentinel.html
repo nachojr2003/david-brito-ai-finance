@@ -1,0 +1,283 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Adjuntar reporte Sentinel · David Brito · AI Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --primario:#0F2A22; --acento:#EBBA58; --dorado-dark:#BA800C; --bg:#F5F8F6; --texto:#1F2937; --gris:#6B7280; --borde:#E5E7EB; --rojo:#DC2626; --verde-ok:#10B981; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Outfit', system-ui, sans-serif; background: var(--bg); color: var(--texto); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+  .header { background: var(--primario); color: #fff; padding: 24px; }
+  .header-inner { max-width: 640px; margin: 0 auto; display: flex; gap: 18px; align-items: center; }
+  .logo-box { width: 64px; height: 52px; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 6px; flex-shrink: 0; }
+  .logo-box img { display: block; max-width: 100%; max-height: 100%; }
+  .header h1 { margin: 0; font-size: 20px; font-weight: 700; }
+  .header .sub { font-size: 12px; color: var(--acento); margin-top: 2px; }
+  .container { max-width: 640px; margin: 0 auto; padding: 32px 24px; flex: 1; width: 100%; }
+  .card { background: #fff; border-radius: 14px; padding: 28px; box-shadow: 0 4px 18px rgba(15,42,34,0.08); margin-bottom: 18px; }
+  .card h2 { color: var(--primario); font-size: 19px; margin: 0 0 12px 0; }
+  .card p { margin: 0 0 14px 0; color: var(--gris); font-size: 14px; }
+  .card .lead-data { background: var(--bg); border-left: 3px solid var(--acento); padding: 12px 16px; font-size: 13px; border-radius: 6px; margin-bottom: 18px; }
+  .card .lead-data strong { color: var(--primario); }
+  .dropzone { border: 2px dashed var(--borde); border-radius: 12px; padding: 38px 22px; text-align: center; cursor: pointer; transition: all .2s; background: #fafbfa; }
+  .dropzone:hover, .dropzone.drag { border-color: var(--acento); background: #fffaf0; }
+  .dropzone .icon { font-size: 38px; color: var(--gris); margin-bottom: 8px; }
+  .dropzone .title { color: var(--primario); font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+  .dropzone .hint { color: var(--gris); font-size: 12px; }
+  input[type=file] { display: none; }
+  .btn { font-family: inherit; font-size: 14px; font-weight: 700; padding: 12px 28px; border-radius: 10px; border: none; cursor: pointer; transition: all .15s; }
+  .btn-primary { background: var(--primario); color: #fff; }
+  .btn-primary:hover:not(:disabled) { box-shadow: 0 4px 14px rgba(15,42,34,0.3); transform: translateY(-1px); }
+  .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+  .actions { display: flex; gap: 10px; justify-content: flex-end; margin-top: 18px; align-items: center; }
+  .file-info { background: var(--bg); border-radius: 10px; padding: 12px 16px; font-size: 13px; color: var(--texto); display: none; align-items: center; gap: 12px; margin-top: 14px; }
+  .file-info.show { display: flex; }
+  .file-info .check { color: var(--verde-ok); font-size: 18px; }
+  .status { font-size: 13px; min-height: 18px; }
+  .status.error { color: var(--rojo); }
+  .status.success { color: var(--verde-ok); }
+  .alert { padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; font-size: 14px; }
+  .alert-warning { background: #FFF4DC; color: var(--dorado-dark); border-left: 4px solid var(--dorado-dark); }
+  .alert-error { background: #FEE2E2; color: #991B1B; border-left: 4px solid var(--rojo); }
+  .alert-info { background: #DBEAFE; color: #1E3A8A; border-left: 4px solid #2563EB; }
+  .alert-success { background: #D1FAE5; color: #064E3B; border-left: 4px solid var(--verde-ok); }
+  .hidden { display: none !important; }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(15,42,34,0.2); border-top-color: var(--primario); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .footer { background: var(--primario); color: rgba(255,255,255,0.7); padding: 16px; text-align: center; font-size: 12px; }
+  .footer a { color: var(--acento); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-box"><img src="/Logo1.png" alt="David Brito AI Finance" /></div>
+    <div>
+      <h1>Adjuntar reporte Sentinel</h1>
+      <div class="sub">Brief IA · David Brito · AI Finance</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="state-loading" class="card">
+    <p><span class="spinner"></span>Validando token...</p>
+  </div>
+
+  <div id="state-invalid" class="card hidden">
+    <div class="alert alert-error">
+      <strong>Token inválido o expirado.</strong> Es posible que este reporte ya haya sido cargado o que el link sea incorrecto. Verifica el email del brief para volver a intentar.
+    </div>
+  </div>
+
+  <div id="state-already-enriched" class="card hidden">
+    <div class="alert alert-info">
+      <strong>Reporte ya cargado.</strong> Este brief ya fue enriquecido por <strong id="already-by"></strong> el <strong id="already-at"></strong>. El cliente ya recibió su brief enriquecido. Si necesitas hacer alguna corrección, contacta a soporte.
+    </div>
+  </div>
+
+  <div id="state-locked" class="card hidden">
+    <div class="alert alert-warning">
+      <strong>Carga en progreso.</strong> Otra persona del equipo (<strong id="locked-by"></strong>) inició la carga hace <strong id="locked-at"></strong>. Si lleva más de 5 minutos, puedes intentar de nuevo.
+    </div>
+  </div>
+
+  <div id="state-ready" class="card hidden">
+    <h2 id="lead-razon">Cargando datos del lead...</h2>
+    <div class="lead-data">
+      <div>Contacto: <strong id="lead-contacto">—</strong></div>
+      <div>RUC: <strong id="lead-ruc">—</strong></div>
+      <div>Tipo de brief: <strong id="lead-type">—</strong></div>
+    </div>
+    <p>Adjunta el <strong>reporte PDF descargado de Sentinel</strong> (o cualquier PDF que tenga el score crediticio y la clasificación SBS). El sistema lo procesa con IA en ~30 segundos y dispara automáticamente:</p>
+    <ul style="margin: 0 0 14px 0; padding-left: 22px; color: var(--gris); font-size: 13px;">
+      <li>Email enriquecido a <strong style="color: var(--primario);">David</strong> con la sección 3 (Score) completa + las 7 secciones</li>
+      <li>Email al <strong style="color: var(--primario);">cliente</strong> con su brief consolidado + CTA a Calendly</li>
+    </ul>
+
+    <form id="upload-form">
+      <label for="file-input" class="dropzone" id="dropzone">
+        <div class="icon">📎</div>
+        <div class="title">Arrastra el PDF aquí o haz click para seleccionar</div>
+        <div class="hint">Solo PDFs · máximo 10 MB</div>
+      </label>
+      <input type="file" id="file-input" accept="application/pdf" />
+
+      <div class="file-info" id="file-info">
+        <span class="check">✓</span>
+        <span id="file-name">archivo.pdf</span>
+        <span style="color: var(--gris); font-size: 12px;" id="file-size"></span>
+      </div>
+
+      <div class="actions">
+        <span class="status" id="status"></span>
+        <button type="submit" class="btn btn-primary" id="submit-btn" disabled>Procesar y enriquecer brief</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="state-processing" class="card hidden">
+    <h2><span class="spinner"></span>Procesando reporte Sentinel</h2>
+    <p>Estamos extrayendo el score crediticio y la clasificación SBS del PDF con IA, regenerando el brief enriquecido y enviando los emails. Esto toma ~30 segundos. <strong>No cierres esta página.</strong></p>
+  </div>
+
+  <div id="state-done" class="card hidden">
+    <div class="alert alert-success">
+      <strong>✓ Reporte procesado.</strong> El brief enriquecido fue enviado a David y al cliente. Ya puedes cerrar esta página.
+    </div>
+  </div>
+
+  <div id="state-error" class="card hidden">
+    <div class="alert alert-error">
+      <strong>Error al procesar el reporte.</strong> <span id="error-detail">Intenta de nuevo en unos minutos.</span>
+    </div>
+    <div class="actions">
+      <button type="button" class="btn btn-primary" onclick="location.reload()">Reintentar</button>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  © David Brito · AI Finance — Powered by <a href="https://ijvagency.com/" target="_blank" rel="noopener">IJV Agency</a>
+</footer>
+
+<script>
+(function() {
+  var N8N = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io';
+  var VALIDATE = N8N + '/webhook/dbrito-sentinel-validate';
+  var UPLOAD   = N8N + '/webhook/dbrito-sentinel-upload';
+
+  // Parse URL: /cargar-sentinel/{brief_id}?token={uuid}
+  var pathParts = window.location.pathname.split('/').filter(Boolean);
+  var briefId = pathParts[pathParts.length - 1] || '';
+  if (briefId === 'cargar-sentinel' || briefId === 'cargar-sentinel.html') briefId = '';
+  var token = new URL(window.location.href).searchParams.get('token') || '';
+
+  function show(state) {
+    ['loading','invalid','already-enriched','locked','ready','processing','done','error'].forEach(function(s) {
+      var el = document.getElementById('state-' + s);
+      if (el) el.classList.toggle('hidden', s !== state);
+    });
+  }
+
+  if (!briefId || !token) {
+    show('invalid');
+    return;
+  }
+
+  // Validar token
+  fetch(VALIDATE, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ brief_id: briefId, token: token })
+  })
+  .then(function(r) { return r.json().then(function(j) { return { status: r.status, body: j }; }); })
+  .then(function(res) {
+    if (res.status !== 200) { show('invalid'); return; }
+    var b = res.body || {};
+    if (b.state === 'enriched') {
+      document.getElementById('already-by').textContent = b.locked_by_email || 'el equipo';
+      document.getElementById('already-at').textContent = b.enriched_at || '';
+      show('already-enriched');
+    } else if (b.state === 'locked') {
+      document.getElementById('locked-by').textContent = b.locked_by_email || 'otro usuario';
+      document.getElementById('locked-at').textContent = b.locked_ago || 'unos momentos';
+      show('locked');
+    } else if (b.state === 'ready') {
+      document.getElementById('lead-razon').textContent = 'Brief: ' + (b.razon_social || 'Sin razón social');
+      document.getElementById('lead-contacto').textContent = (b.cliente_nombre || '—') + ' · ' + (b.cliente_email || '—');
+      document.getElementById('lead-ruc').textContent = b.ruc || '—';
+      document.getElementById('lead-type').textContent = b.brief_type === 'n3_agro' ? 'N3 Agro' : 'N2 Genérico';
+      show('ready');
+    } else {
+      show('invalid');
+    }
+  })
+  .catch(function() { show('invalid'); });
+
+  // Upload setup
+  var $file = document.getElementById('file-input');
+  var $drop = document.getElementById('dropzone');
+  var $btn  = document.getElementById('submit-btn');
+  var $info = document.getElementById('file-info');
+  var $name = document.getElementById('file-name');
+  var $size = document.getElementById('file-size');
+  var $form = document.getElementById('upload-form');
+  var $status = document.getElementById('status');
+  var selectedFile = null;
+
+  function pickFile(f) {
+    if (!f) return;
+    if (f.type !== 'application/pdf' && !f.name.toLowerCase().endsWith('.pdf')) {
+      $status.textContent = 'Solo se permiten archivos PDF';
+      $status.className = 'status error';
+      return;
+    }
+    if (f.size > 10 * 1024 * 1024) {
+      $status.textContent = 'El archivo excede 10 MB';
+      $status.className = 'status error';
+      return;
+    }
+    selectedFile = f;
+    $name.textContent = f.name;
+    $size.textContent = '(' + (f.size / 1024).toFixed(0) + ' KB)';
+    $info.classList.add('show');
+    $btn.disabled = false;
+    $status.textContent = '';
+  }
+
+  $file.addEventListener('change', function(e) { pickFile(e.target.files[0]); });
+  $drop.addEventListener('dragover', function(e) { e.preventDefault(); $drop.classList.add('drag'); });
+  $drop.addEventListener('dragleave', function() { $drop.classList.remove('drag'); });
+  $drop.addEventListener('drop', function(e) {
+    e.preventDefault(); $drop.classList.remove('drag');
+    if (e.dataTransfer.files.length) pickFile(e.dataTransfer.files[0]);
+  });
+
+  $form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    if (!selectedFile) return;
+    show('processing');
+
+    var reader = new FileReader();
+    reader.onload = function() {
+      var base64 = String(reader.result).split(',')[1];
+      fetch(UPLOAD, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          brief_id: briefId,
+          token: token,
+          filename: selectedFile.name,
+          pdf_base64: base64
+        })
+      })
+      .then(function(r) { return r.json().then(function(j) { return { status: r.status, body: j }; }); })
+      .then(function(res) {
+        if (res.status === 200 && res.body && res.body.ok) {
+          show('done');
+        } else {
+          var msg = (res.body && res.body.error) || 'Error desconocido al procesar.';
+          document.getElementById('error-detail').textContent = msg;
+          show('error');
+        }
+      })
+      .catch(function(err) {
+        document.getElementById('error-detail').textContent = 'No pudimos conectar con el servidor. Intenta de nuevo en unos minutos.';
+        show('error');
+      });
+    };
+    reader.readAsDataURL(selectedFile);
+  });
+})();
+</script>
+
+</body>
+</html>
