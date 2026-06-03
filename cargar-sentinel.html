@@ -154,11 +154,15 @@
   var VALIDATE = N8N + '/webhook/dbrito-sentinel-validate';
   var UPLOAD   = N8N + '/webhook/dbrito-sentinel-upload';
 
-  // Parse URL: /cargar-sentinel/{brief_id}?token={uuid}
-  var pathParts = window.location.pathname.split('/').filter(Boolean);
-  var briefId = pathParts[pathParts.length - 1] || '';
-  if (briefId === 'cargar-sentinel' || briefId === 'cargar-sentinel.html') briefId = '';
-  var token = new URL(window.location.href).searchParams.get('token') || '';
+  // Parse URL: /cargar-sentinel?brief_id={id}&token={uuid}  (o legacy path /cargar-sentinel/{id}?token=...)
+  var url = new URL(window.location.href);
+  var briefId = url.searchParams.get('brief_id') || '';
+  if (!briefId) {
+    var pathParts = window.location.pathname.split('/').filter(Boolean);
+    var last = pathParts[pathParts.length - 1] || '';
+    if (last && last !== 'cargar-sentinel' && last !== 'cargar-sentinel.html') briefId = last;
+  }
+  var token = url.searchParams.get('token') || '';
 
   function show(state) {
     ['loading','invalid','already-enriched','locked','ready','processing','done','error'].forEach(function(s) {
