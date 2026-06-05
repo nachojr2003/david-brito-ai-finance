@@ -3,6 +3,8 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/prediagnostico", "destination": "/prediagnostico.html" },
+    { "source": "/diagnostico-express", "destination": "/prediagnostico.html" },
+    { "source": "/diagnostico", "destination": "/prediagnostico.html" },
     { "source": "/politica-privacidad", "destination": "/politica-privacidad.html" },
     { "source": "/privacidad", "destination": "/politica-privacidad.html" },
     { "source": "/cargar-sentinel/:briefId", "destination": "/cargar-sentinel.html" }
