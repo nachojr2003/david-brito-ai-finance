@@ -116,11 +116,7 @@
 
   <div id="state-done" class="card hidden">
     <div class="alert alert-success" id="done-banner"></div>
-    <h2 style="margin-top: 20px;">Mensaje listo para el cliente</h2>
-    <p>Copia este mensaje y pégalo en la conversación con el cliente (por el canal por donde llegó):</p>
-    <div class="reply-box" id="reply-text">—</div>
-    <button class="copy-btn" id="btn-copy">📋 Copiar al portapapeles</button>
-    <p style="margin-top: 16px; font-size: 12px; color: var(--gris);">Cuando configuremos la API key de ManyChat, este mensaje saldrá automático al cliente sin que tengas que copiarlo.</p>
+    <p id="done-detail" style="margin-top: 14px; font-size: 14px; color: var(--gris);"></p>
   </div>
 
   <div id="state-error" class="card hidden">
@@ -208,10 +204,14 @@
       }
       var b = res.body || {};
       var banner = document.getElementById('done-banner');
-      banner.textContent = b.status === 'verified'
-        ? '✅ Pago validado correctamente. El cliente puede continuar con su Diagnóstico Financiero Express.'
-        : '❌ Pago rechazado. El cliente recibirá un mensaje pidiendo que reenvíe el comprobante.';
-      document.getElementById('reply-text').textContent = b.reply_text || '';
+      var detail = document.getElementById('done-detail');
+      if (b.status === 'verified') {
+        banner.textContent = '✅ Pago validado correctamente.';
+        detail.innerHTML = 'El cliente ya recibió el mensaje automático con el link al formulario del <strong>Diagnóstico Financiero Express</strong>. Apenas lo complete, podrá agendar la reunión desde el mismo formulario. Ya puedes cerrar esta página.';
+      } else {
+        banner.textContent = '❌ Pago rechazado.';
+        detail.innerHTML = 'El cliente recibió automáticamente un mensaje pidiendo que reenvíe la captura del Yape + número de operación. Cuando lo envíe, vuelve a iniciar el proceso de validación.';
+      }
       show('done');
     })
     .catch(function() {
@@ -227,22 +227,6 @@
     }
   });
 
-  document.getElementById('btn-copy').addEventListener('click', function() {
-    var text = document.getElementById('reply-text').textContent || '';
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(function() {
-        var btn = document.getElementById('btn-copy');
-        btn.textContent = '✓ Copiado';
-        btn.classList.add('copied');
-        setTimeout(function() { btn.textContent = '📋 Copiar al portapapeles'; btn.classList.remove('copied'); }, 2200);
-      });
-    } else {
-      var ta = document.createElement('textarea');
-      ta.value = text; document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); } catch(e) {}
-      document.body.removeChild(ta);
-    }
-  });
 })();
 </script>
 
