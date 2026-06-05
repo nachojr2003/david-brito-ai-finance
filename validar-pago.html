@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Validar pago Yape · David Brito · AI Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root { --primario:#0F2A22; --acento:#EBBA58; --dorado-dark:#BA800C; --bg:#F5F8F6; --texto:#1F2937; --gris:#6B7280; --borde:#E5E7EB; --rojo:#DC2626; --verde-ok:#10B981; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Outfit', system-ui, sans-serif; background: var(--bg); color: var(--texto); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+  .header { background: var(--primario); color: #fff; padding: 24px; }
+  .header-inner { max-width: 700px; margin: 0 auto; display: flex; gap: 18px; align-items: center; }
+  .logo-box { width: 64px; height: 52px; background: #fff; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 6px; flex-shrink: 0; }
+  .logo-box img { display: block; max-width: 100%; max-height: 100%; }
+  .header h1 { margin: 0; font-size: 20px; font-weight: 700; }
+  .header .sub { font-size: 12px; color: var(--acento); margin-top: 2px; }
+  .container { max-width: 700px; margin: 0 auto; padding: 28px 24px; flex: 1; width: 100%; }
+  .card { background: #fff; border-radius: 14px; padding: 26px; box-shadow: 0 4px 18px rgba(15,42,34,0.08); margin-bottom: 16px; }
+  .card h2 { color: var(--primario); font-size: 19px; margin: 0 0 14px 0; }
+  .card p { margin: 0 0 12px 0; color: var(--gris); font-size: 14px; }
+  .lead-box { background: var(--bg); border-left: 4px solid var(--acento); border-radius: 8px; padding: 16px 20px; margin: 14px 0 20px 0; }
+  .lead-box .row { display: flex; padding: 4px 0; font-size: 14px; }
+  .lead-box .row .label { color: var(--gris); width: 130px; flex-shrink: 0; }
+  .lead-box .row .value { color: var(--texto); font-weight: 600; }
+  .lead-box .row .value.muted { font-weight: 400; color: var(--gris); font-style: italic; }
+  .yape-info { background: linear-gradient(135deg, #6B21A8 0%, #581c87 100%); color: #fff; border-radius: 10px; padding: 14px 18px; margin: 14px 0; font-size: 13px; }
+  .yape-info strong { color: #EBBA58; }
+  .actions { display: flex; gap: 12px; margin-top: 22px; }
+  .btn { flex: 1; font-family: inherit; font-size: 15px; font-weight: 700; padding: 16px 22px; border-radius: 10px; border: none; cursor: pointer; transition: all .15s; }
+  .btn-yes { background: var(--verde-ok); color: #fff; }
+  .btn-yes:hover:not(:disabled) { box-shadow: 0 4px 14px rgba(16,185,129,0.35); transform: translateY(-1px); }
+  .btn-no { background: var(--rojo); color: #fff; }
+  .btn-no:hover:not(:disabled) { box-shadow: 0 4px 14px rgba(220,38,38,0.35); transform: translateY(-1px); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+  .alert { padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; font-size: 14px; }
+  .alert-warning { background: #FFF4DC; color: var(--dorado-dark); border-left: 4px solid var(--dorado-dark); }
+  .alert-error { background: #FEE2E2; color: #991B1B; border-left: 4px solid var(--rojo); }
+  .alert-success { background: #D1FAE5; color: #064E3B; border-left: 4px solid var(--verde-ok); }
+  .alert-info { background: #DBEAFE; color: #1E3A8A; border-left: 4px solid #2563EB; }
+  .hidden { display: none !important; }
+  .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(15,42,34,0.2); border-top-color: var(--primario); border-radius: 50%; animation: spin .8s linear infinite; vertical-align: middle; margin-right: 8px; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .reply-box { background: var(--bg); border: 2px dashed var(--borde); border-radius: 10px; padding: 16px; margin: 14px 0; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--texto); white-space: pre-wrap; }
+  .copy-btn { background: var(--primario); color: var(--acento); border: none; padding: 9px 18px; border-radius: 8px; cursor: pointer; font-family: inherit; font-weight: 600; font-size: 13px; transition: all .15s; }
+  .copy-btn:hover { background: #1a3d33; }
+  .copy-btn.copied { background: var(--verde-ok); color: #fff; }
+  .footer { background: var(--primario); color: rgba(255,255,255,0.7); padding: 14px; text-align: center; font-size: 12px; }
+  .footer a { color: var(--acento); text-decoration: none; }
+  .channel-tag { display: inline-block; background: var(--acento); color: var(--primario); padding: 3px 10px; border-radius: 999px; font-size: 11px; font-weight: 700; letter-spacing: 0.4px; text-transform: uppercase; }
+  details summary { cursor: pointer; color: var(--gris); font-size: 13px; padding: 8px 0; }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-box"><img src="/Logo1.png" alt="David Brito AI Finance" /></div>
+    <div>
+      <h1>Validar pago Yape</h1>
+      <div class="sub">Dashboard interno · David Brito · AI Finance</div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <div id="state-loading" class="card">
+    <p><span class="spinner"></span>Validando token...</p>
+  </div>
+
+  <div id="state-invalid" class="card hidden">
+    <div class="alert alert-error">
+      <strong>Token inválido o expirado.</strong> Verifica el link del email de Notificar Pago. Si necesitas reenviar la notificación, escribe a Nacho.
+    </div>
+  </div>
+
+  <div id="state-already" class="card hidden">
+    <div class="alert alert-info">
+      <strong>Este pago ya fue procesado.</strong> Estado: <strong id="already-status"></strong> · Validado por <strong id="already-by"></strong> el <strong id="already-at"></strong>.
+    </div>
+  </div>
+
+  <div id="state-ready" class="card hidden">
+    <h2>¿El pago del Yape entró correctamente?</h2>
+    <p>El cliente indica que ya pagó S/<span id="monto-display">59</span> al Yape <strong>+51 951 603 568 · David Brito</strong>. Revisa tu Yape y valida si la transferencia llegó.</p>
+
+    <div class="lead-box">
+      <div class="row"><span class="label">Cliente:</span><span class="value" id="lead-nombre">—</span></div>
+      <div class="row"><span class="label">Teléfono:</span><span class="value" id="lead-telefono">—</span></div>
+      <div class="row"><span class="label">Canal de origen:</span><span class="value"><span class="channel-tag" id="lead-channel">—</span></span></div>
+      <div class="row"><span class="label">Monto:</span><span class="value">S/ <span id="lead-monto">59</span></span></div>
+      <div class="row"><span class="label">Notificado:</span><span class="value muted" id="lead-created">—</span></div>
+    </div>
+
+    <details id="context-details" style="margin-bottom: 14px;">
+      <summary>Ver contexto de la conversación →</summary>
+      <p style="font-size: 13px; color: var(--gris); margin-top: 8px; font-style: italic;" id="lead-context">—</p>
+    </details>
+
+    <div class="yape-info">
+      <strong>💡 Recordatorio:</strong> el Yape llega a <strong>+51 951 603 568</strong> a nombre de <strong>David Brito</strong>. Verifica nombre del remitente + monto antes de validar.
+    </div>
+
+    <div class="actions">
+      <button class="btn btn-no" id="btn-reject">❌ No, rechazar</button>
+      <button class="btn btn-yes" id="btn-verify">✅ Sí, validar pago</button>
+    </div>
+  </div>
+
+  <div id="state-processing" class="card hidden">
+    <p><span class="spinner"></span>Procesando...</p>
+  </div>
+
+  <div id="state-done" class="card hidden">
+    <div class="alert alert-success" id="done-banner"></div>
+    <h2 style="margin-top: 20px;">Mensaje listo para el cliente</h2>
+    <p>Copia este mensaje y pégalo en la conversación con el cliente (por el canal por donde llegó):</p>
+    <div class="reply-box" id="reply-text">—</div>
+    <button class="copy-btn" id="btn-copy">📋 Copiar al portapapeles</button>
+    <p style="margin-top: 16px; font-size: 12px; color: var(--gris);">Cuando configuremos la API key de ManyChat, este mensaje saldrá automático al cliente sin que tengas que copiarlo.</p>
+  </div>
+
+  <div id="state-error" class="card hidden">
+    <div class="alert alert-error">
+      <strong>Error.</strong> <span id="error-detail">Intenta de nuevo en unos minutos.</span>
+    </div>
+    <div class="actions" style="margin-top: 12px;">
+      <button class="btn btn-no" onclick="location.reload()">Reintentar</button>
+    </div>
+  </div>
+
+</div>
+
+<footer class="footer">
+  Dashboard interno · David Brito · AI Finance — Powered by <a href="https://ijvagency.com/" target="_blank" rel="noopener">IJV Agency</a>
+</footer>
+
+<script>
+(function() {
+  var N8N = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io';
+  var INFO_URL = N8N + '/webhook/dbrito-validar-pago-info';
+  var CONFIRM_URL = N8N + '/webhook/dbrito-confirmar-pago';
+
+  var url = new URL(window.location.href);
+  var leadId = url.searchParams.get('id') || '';
+  var token = url.searchParams.get('token') || '';
+
+  function show(state) {
+    ['loading','invalid','already','ready','processing','done','error'].forEach(function(s) {
+      var el = document.getElementById('state-' + s);
+      if (el) el.classList.toggle('hidden', s !== state);
+    });
+  }
+
+  function fmtDate(iso) {
+    if (!iso) return '—';
+    try {
+      var d = new Date(iso);
+      return d.toLocaleString('es-PE', { dateStyle: 'medium', timeStyle: 'short' });
+    } catch(e) { return iso; }
+  }
+
+  if (!leadId || !token) { show('invalid'); return; }
+
+  fetch(INFO_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ lead_id: leadId, token: token })
+  })
+  .then(function(r) { return r.json().then(function(j) { return { status: r.status, body: j }; }); })
+  .then(function(res) {
+    if (res.status !== 200) { show('invalid'); return; }
+    var b = res.body || {};
+    if (b.state === 'verified' || b.state === 'rejected') {
+      document.getElementById('already-status').textContent = b.state === 'verified' ? 'VALIDADO ✓' : 'RECHAZADO ✗';
+      document.getElementById('already-by').textContent = b.validated_by || 'el equipo';
+      document.getElementById('already-at').textContent = fmtDate(b.verified_at || b.rejected_at);
+      show('already'); return;
+    }
+    if (b.state !== 'pending') { show('invalid'); return; }
+    document.getElementById('lead-nombre').textContent = b.cliente_nombre || '—';
+    document.getElementById('lead-telefono').textContent = b.cliente_telefono || '—';
+    document.getElementById('lead-channel').textContent = b.channel_label || '—';
+    document.getElementById('lead-monto').textContent = b.monto || '59';
+    document.getElementById('monto-display').textContent = b.monto || '59';
+    document.getElementById('lead-created').textContent = fmtDate(b.created_at);
+    document.getElementById('lead-context').textContent = b.context_summary || '(sin contexto previo)';
+    if (!b.context_summary) document.getElementById('context-details').classList.add('hidden');
+    show('ready');
+  })
+  .catch(function() { show('invalid'); });
+
+  function confirmar(action) {
+    show('processing');
+    fetch(CONFIRM_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lead_id: leadId, token: token, action: action, validated_by: 'David' })
+    })
+    .then(function(r) { return r.json().then(function(j) { return { status: r.status, body: j }; }); })
+    .then(function(res) {
+      if (res.status !== 200) {
+        document.getElementById('error-detail').textContent = (res.body && res.body.error) || 'Error desconocido';
+        show('error'); return;
+      }
+      var b = res.body || {};
+      var banner = document.getElementById('done-banner');
+      banner.textContent = b.status === 'verified'
+        ? '✅ Pago validado correctamente. El cliente puede continuar con su Diagnóstico Financiero Express.'
+        : '❌ Pago rechazado. El cliente recibirá un mensaje pidiendo que reenvíe el comprobante.';
+      document.getElementById('reply-text').textContent = b.reply_text || '';
+      show('done');
+    })
+    .catch(function() {
+      document.getElementById('error-detail').textContent = 'No pudimos procesar. Intenta de nuevo.';
+      show('error');
+    });
+  }
+
+  document.getElementById('btn-verify').addEventListener('click', function() { confirmar('ok'); });
+  document.getElementById('btn-reject').addEventListener('click', function() {
+    if (confirm('¿Confirmas que el pago NO entró o quieres rechazarlo? El cliente recibirá un mensaje pidiendo el comprobante.')) {
+      confirmar('reject');
+    }
+  });
+
+  document.getElementById('btn-copy').addEventListener('click', function() {
+    var text = document.getElementById('reply-text').textContent || '';
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(function() {
+        var btn = document.getElementById('btn-copy');
+        btn.textContent = '✓ Copiado';
+        btn.classList.add('copied');
+        setTimeout(function() { btn.textContent = '📋 Copiar al portapapeles'; btn.classList.remove('copied'); }, 2200);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch(e) {}
+      document.body.removeChild(ta);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
