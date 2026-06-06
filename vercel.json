@@ -7,7 +7,7 @@
     { "source": "/diagnostico", "destination": "/prediagnostico.html" },
     { "source": "/politica-privacidad", "destination": "/politica-privacidad.html" },
     { "source": "/privacidad", "destination": "/politica-privacidad.html" },
-    { "source": "/cargar-sentinel/:briefId", "destination": "/cargar-sentinel.html" },
+    { "source": "/cargar-sentinel", "destination": "/cargar-sentinel.html" },
     { "source": "/validar-pago", "destination": "/validar-pago.html" }
   ]
 }
