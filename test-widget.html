@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prueba Widget · David Brito AI Finance</title>
+<style>
+  body{font-family:'Outfit',system-ui,-apple-system,sans-serif;margin:0;min-height:100vh;
+    background:linear-gradient(160deg,#0F2A22 0%,#15392e 100%);color:#F5F8F6;
+    display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box}
+  .card{max-width:560px;text-align:center}
+  .badge{display:inline-block;background:#EBBA58;color:#0F2A22;font-weight:700;
+    font-size:12px;letter-spacing:.5px;text-transform:uppercase;padding:6px 14px;border-radius:20px;margin-bottom:20px}
+  h1{font-size:30px;margin:0 0 12px;font-weight:800;line-height:1.2}
+  p{font-size:16px;line-height:1.6;color:#cfe0d8;margin:0 0 14px}
+  .hint{margin-top:28px;font-size:14px;color:#EBBA58;display:flex;align-items:center;gap:8px;justify-content:center}
+  .arrow{font-size:22px;animation:bob 1.4s ease-in-out infinite}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(6px)}}
+  code{background:rgba(235,186,88,.15);color:#EBBA58;padding:2px 7px;border-radius:5px;font-size:13px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="badge">Página de prueba · IJV Agency</div>
+    <h1>Widget de chat · David Brito AI Finance</h1>
+    <p>Esta página existe solo para probar el widget embebido. El código real es el snippet de abajo — el mismo que va en el sitio del cliente.</p>
+    <p>El launcher verde aparece en la <strong>esquina inferior derecha</strong>. Ábrelo, escribe algo y verifica que el agente responde.</p>
+    <div class="hint"><span class="arrow">↘</span> Haz clic en el botón flotante</div>
+  </div>
+
+  <!-- ===== Widget David Brito · AI Finance (snippet de producción, sin cambios) ===== -->
+  <script>
+    window.dbritoAgentConfig = {
+      n8nBase:        'https://n8n-jcg4epwgyztosnmbxghhwvdv.34.133.34.116.sslip.io',
+      timeoutMs:      45000,
+      maxRetries:     1,
+      calendlyUrl:    'https://calendly.com/estrategia-dbaifinance',
+      whatsappNumber: '51907979298'
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/gh/nachojr2003/david-brito-ai-finance@main/widget/dbrito-agent.js" defer></script>
+  <!-- ===== Fin widget ===== -->
+</body>
+</html>
