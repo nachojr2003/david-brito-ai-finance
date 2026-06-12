@@ -43,8 +43,16 @@
 
   var SESSION_KEY  = 'dbrito_session_id';
   var MESSAGES_KEY = 'dbrito_messages';
+  var SESSION_LAST_KEY = 'dbrito_session_last';
+  var SESSION_TTL_MS = 30 * 60 * 1000; // regla 61: sessionStorage sobrevive a Cmd+Shift+R — expirar la sesion a los 30 min
   var sessionId = sessionStorage.getItem(SESSION_KEY) || uuid();
+  var lastSeen = parseInt(sessionStorage.getItem(SESSION_LAST_KEY) || '0', 10);
+  if (lastSeen && (Date.now() - lastSeen) > SESSION_TTL_MS) {
+    sessionId = uuid();
+    sessionStorage.removeItem(MESSAGES_KEY);
+  }
   sessionStorage.setItem(SESSION_KEY, sessionId);
+  sessionStorage.setItem(SESSION_LAST_KEY, String(Date.now()));
   function loadHistory() { try { return JSON.parse(sessionStorage.getItem(MESSAGES_KEY) || '[]'); } catch (e) { return []; } }
 
   var css = `
@@ -215,7 +223,7 @@
     var attempt = 0; var max = (CFG.maxRetries || 0) + 1;
     function tryOnce() {
       attempt++;
-      return fetch(CFG.webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, sessionId: sessionId }), signal: ctrl.signal })
+      return fetch(CFG.webhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ message: msg, sessionId: sessionId, channel: 'web' }), signal: ctrl.signal })
         .then(function (r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .catch(function (err) { if (attempt < max) return new Promise(function (res) { setTimeout(res, 800); }).then(tryOnce); throw err; });
     }
@@ -226,6 +234,7 @@
   function sendMessage(msg) {
     if (sending || !msg || !msg.trim()) return;
     sending = true; sendBtn.disabled = true;
+    sessionStorage.setItem(SESSION_LAST_KEY, String(Date.now()));
     addMsg('user', msg);
     var typingEl = addMsg('bot', '', { typing: true });
     callAgent(msg).then(function (data) {
@@ -320,6 +329,7 @@
   resetBtn.onclick  = function () {
     sessionStorage.removeItem(SESSION_KEY); sessionStorage.removeItem(MESSAGES_KEY);
     sessionId = uuid(); sessionStorage.setItem(SESSION_KEY, sessionId);
+    sessionStorage.setItem(SESSION_LAST_KEY, String(Date.now()));
     clearForm(); welcome(); showToast('Conversación reiniciada');
   };
   sendBtn.onclick = function () { var v = textarea.value; textarea.value = ''; textarea.style.height = 'auto'; sendMessage(v); };
