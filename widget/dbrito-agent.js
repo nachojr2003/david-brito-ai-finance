@@ -263,7 +263,7 @@
     f.innerHTML =
       '<button type="button" class="dbr-form-close" aria-label="Cerrar formulario" title="Cerrar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg></button>' +
       '<p class="dbr-form-title">Coordinemos una reunión con David</p>' +
-      '<p class="dbr-form-sub">Diagnóstico de 30 min sin costo. David te contactará personalmente.</p>' +
+      '<p class="dbr-form-sub">Sesión de 45 minutos con David, uno a uno. Él te contactará personalmente.</p>' +
       '<input class="hp" name="hp" tabindex="-1" autocomplete="off">' +
       '<input name="nombre" placeholder="Nombre completo*" required maxlength="120">' +
       '<div class="row"><input name="email" type="email" placeholder="Email*" required maxlength="120">' +
@@ -300,7 +300,7 @@
           cta.innerHTML =
             '<p class="dbr-cta-title">Agenda directamente tu reunión</p>' +
             '<p class="dbr-cta-text">Si prefieres reservar tú mismo el slot que mejor te acomode, abre el calendario y elige día y hora — es el camino más rápido.</p>' +
-            '<a href="' + calendlyHref + '" target="_blank" rel="noopener">Agendar 30 min →</a>' +
+            '<a href="' + calendlyHref + '" target="_blank" rel="noopener">Agendar 45 min →</a>' +
             '<p class="dbr-cta-alt">o escríbele por <a href="' + waHref + '" target="_blank" rel="noopener">WhatsApp</a></p>';
           messages.appendChild(cta);
           scrollToBottom();
