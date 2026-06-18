@@ -304,7 +304,7 @@
           var firstName = (body.nombre || '').split(' ')[0] || '';
           addMsg('bot', '¡Gracias' + (firstName ? ', ' + firstName : '') + '! Recibí tus datos. David te contactará en las próximas horas.');
           var cta = $('div', { class: 'dbr-cta' });
-          var calendlyHref = CFG.calendlyUrl || 'https://calendly.com/estrategia-dbaifinance';
+          var calendlyHref = CFG.calendlyUrl || 'https://calendly.com/estrategia-dbaifinance/30min';
           var waHref = 'https://wa.me/' + (CFG.whatsappNumber || '51907979298') + '?text=Hola%20David%2C%20te%20escribo%20por%20el%20chat%20de%20la%20web';
           cta.innerHTML =
             '<p class="dbr-cta-title">Agenda directamente tu reunión</p>' +
