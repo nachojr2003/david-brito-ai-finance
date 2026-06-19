@@ -23,3 +23,8 @@ Screenshot *.png
 
 # Templates internos (David los sube a su Drive privado)
 Hoja_Propuesta_*.xlsx
+
+# Notas internas, snapshots de workflows y versiones para developer (no van al repo público)
+TODO-*.md
+n8n/
+*-PARA-DEVELOPER.html
