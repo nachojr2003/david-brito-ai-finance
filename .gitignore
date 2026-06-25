@@ -28,3 +28,7 @@ Hoja_Propuesta_*.xlsx
 TODO-*.md
 n8n/
 *-PARA-DEVELOPER.html
+
+# Fuente del e-book (HTML + assets con fotos de David). Solo se publica el PDF final en la raíz (guia-financiamiento.pdf)
+ebook/
+cowork/
