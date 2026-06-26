@@ -103,12 +103,15 @@
 </div>
 
 <div class="container">
-  <div class="intro" id="intro">
+  <div class="intro" id="gate" style="border-left-color: var(--primario);">
+    <p id="gateMsg" style="color:var(--primario);font-weight:500;">Validando tu acceso…</p>
+  </div>
+  <div class="intro" id="intro" style="display:none;">
     <span class="badge" id="introBadge">Antes de tu reunión</span>
     <p id="introText">Completa este formulario con la información de tu empresa. Toma <strong>10 minutos aprox.</strong> Con estos datos, David llega a tu <strong>Diagnóstico Financiero Express</strong> con un brief estructurado de tu caso (diagnóstico financiero, score crediticio Sentinel, oportunidades concretas) — el tiempo de la reunión lo aprovechamos en decisiones, no en preguntas básicas. Toda la información es confidencial (Ley 29733).</p>
   </div>
 
-  <form id="form" autocomplete="on">
+  <form id="form" autocomplete="on" style="display:none;">
 
     <div class="section">
       <h3 class="section-title">1. Datos de contacto</h3>
@@ -265,6 +268,39 @@
   var $sectorCultivo = document.getElementById('sector_cultivo');
   var $sectorNoAgro = document.getElementById('sector_no_agro');
 
+  // ─── Candado de acceso: el formulario solo se habilita tras el pago (token de un solo uso, 14 días) ───
+  var VALIDATE_WEBHOOK = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.136.116.88.204.sslip.io/webhook/dbrito-form-validate';
+  var $gate = document.getElementById('gate');
+  var $gateMsg = document.getElementById('gateMsg');
+  function gparam(name) { try { return (new URL(window.location.href).searchParams.get(name) || '').trim(); } catch (e) { return ''; } }
+  var ACCESS = { lead: gparam('lead') || gparam('lead_id'), token: gparam('token'), master: gparam('master') };
+  var CONTACT = 'escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a> o por WhatsApp y reactivamos tu acceso';
+  function blockGate(html) { if ($gateMsg) $gateMsg.innerHTML = html; if ($gate) $gate.style.display = 'block'; }
+  function openForm(nombre) {
+    if ($gate) $gate.style.display = 'none';
+    if ($intro) $intro.style.display = '';
+    if ($form) $form.style.display = '';
+    if (nombre) { var elN = $form.querySelector('input[name="nombre_contacto"]'); if (elN && !elN.value) elN.value = nombre; }
+  }
+  (function gateInit() {
+    if (!ACCESS.master && (!ACCESS.lead || !ACCESS.token)) {
+      blockGate('Este enlace no es válido. El formulario del Diagnóstico se habilita <strong>después de confirmar tu pago</strong>. Si ya pagaste, ' + CONTACT + '.');
+      return;
+    }
+    fetch(VALIDATE_WEBHOOK, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ lead: ACCESS.lead, token: ACCESS.token, master: ACCESS.master }) })
+      .then(function (r) { return r.json(); })
+      .then(function (res) {
+        var st = (res && res.state) || 'invalid';
+        if (st === 'ready') openForm(res && res.cliente_nombre);
+        else if (st === 'consumed') blockGate('Este formulario <strong>ya fue completado</strong>. Si necesitas corregir algo, ' + CONTACT + '.');
+        else if (st === 'expired') blockGate('Tu enlace <strong>venció</strong> (es válido 14 días desde tu pago). Para reactivarlo, ' + CONTACT + '.');
+        else blockGate('Este enlace no es válido. Si ya pagaste, ' + CONTACT + '.');
+      })
+      .catch(function () {
+        blockGate('No pudimos validar tu acceso en este momento. Recarga la página en unos segundos. Si persiste, ' + CONTACT + '.');
+      });
+  })();
+
   // ─── Autocompletar desde query params (post-redirect de Calendly) ───
   function getParam(name) {
     try {
@@ -368,6 +404,10 @@
       if (el.type === 'checkbox') data[el.name] = el.checked;
       else data[el.name] = (el.value || '').trim();
     });
+    // Token de acceso de un solo uso (o llave maestra) — el servidor valida y lo consume al enviar
+    data.lead = ACCESS.lead;
+    data.token = ACCESS.token;
+    data.master = ACCESS.master;
 
     $btn.disabled = true;
     $status.textContent = 'Enviando...';
@@ -383,6 +423,17 @@
       return r.json();
     })
     .then(function(res) {
+      if (res && res.ok === false) {
+        var msg = res.state === 'consumed'
+          ? 'Este formulario ya fue completado con este enlace.'
+          : (res.state === 'expired'
+            ? 'Tu enlace venció. Escríbenos a estrategia@dbaifinance.com para reactivarlo.'
+            : 'Tu enlace no es válido. Escríbenos a estrategia@dbaifinance.com.');
+        $status.textContent = msg;
+        $status.className = 'status error';
+        $btn.disabled = false;
+        return;
+      }
       $form.style.display = 'none';
       $intro.style.display = 'none';
       $success.classList.add('show');
