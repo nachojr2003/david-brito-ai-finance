@@ -10,7 +10,7 @@ Pega este snippet **antes del `</body>`** de tu sitio:
 <!-- Widget David Brito · AI Finance · agente IA conversacional -->
 <script>
   window.dbritoAgentConfig = {
-    n8nBase:        'https://n8n-jcg4epwgyztosnmbxghhwvdv.136.116.88.204.sslip.io',
+    n8nBase:        'https://meta.ijvagency.com',
     timeoutMs:      45000,
     maxRetries:     1,
     calendlyUrl:    'https://calendly.com/estrategia-dbaifinance',
@@ -43,7 +43,7 @@ Si quieres que el agente arranque con un mensaje específico para la landing de 
 ```html
 <script>
   window.dbritoAgentConfig = {
-    n8nBase:        'https://n8n-jcg4epwgyztosnmbxghhwvdv.136.116.88.204.sslip.io',
+    n8nBase:        'https://meta.ijvagency.com',
     calendlyUrl:    'https://calendly.com/estrategia-dbaifinance',
     whatsappNumber: '51907979298',
     welcomeMessage: 'Hola, soy el asistente IA de **David Brito · AI Finance**.\n\n¿Quieres saber más sobre nuestras plantillas financieras o sobre el Diagnóstico Financiero Express?'

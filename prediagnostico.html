@@ -254,7 +254,7 @@
 
 <script>
 (function() {
-  var WEBHOOK = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.136.116.88.204.sslip.io/webhook/dbrito-brief-n3';
+  var WEBHOOK = 'https://meta.ijvagency.com/webhook/dbrito-brief-n3';
 
   var $form = document.getElementById('form');
   var $status = document.getElementById('status');
@@ -269,7 +269,7 @@
   var $sectorNoAgro = document.getElementById('sector_no_agro');
 
   // ─── Candado de acceso: el formulario solo se habilita tras el pago (token de un solo uso, 14 días) ───
-  var VALIDATE_WEBHOOK = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.136.116.88.204.sslip.io/webhook/dbrito-form-validate';
+  var VALIDATE_WEBHOOK = 'https://meta.ijvagency.com/webhook/dbrito-form-validate';
   var $gate = document.getElementById('gate');
   var $gateMsg = document.getElementById('gateMsg');
   function gparam(name) { try { return (new URL(window.location.href).searchParams.get(name) || '').trim(); } catch (e) { return ''; } }
@@ -350,7 +350,7 @@
 
     // Dispara landing webhook (una sola vez por sesión) para arrancar el tracking de recordatorios
     try {
-      var LANDING_WEBHOOK = 'https://n8n-jcg4epwgyztosnmbxghhwvdv.136.116.88.204.sslip.io/webhook/dbrito-landing';
+      var LANDING_WEBHOOK = 'https://meta.ijvagency.com/webhook/dbrito-landing';
       var landingKey = 'dbrito_landing_' + (qEmail || '').toLowerCase();
       if (qEmail && !sessionStorage.getItem(landingKey)) {
         fetch(LANDING_WEBHOOK, {

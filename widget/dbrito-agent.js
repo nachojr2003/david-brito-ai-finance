@@ -1,7 +1,7 @@
 (function () {
   'use strict';
   var DEFAULTS = {
-    n8nBase:        'https://n8n-jcg4epwgyztosnmbxghhwvdv.136.116.88.204.sslip.io',
+    n8nBase:        'https://meta.ijvagency.com',
     timeoutMs:      45000,
     maxRetries:     1,
     welcomeMessage: 'Hola, soy el asistente IA de **David Brito · AI Finance**.\n\nDavid es ex banquero corporativo (BBVA, Interbank · USD 30M+ en cartera) y hoy ayuda a empresarios LATAM a **ordenar sus finanzas, estructurar deuda y acceder a financiamiento con criterio**.\n\nPara situarte mejor — ¿cuéntame de tu empresa: a qué se dedica y de qué tamaño es aproximadamente?'
