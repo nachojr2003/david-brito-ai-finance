@@ -45,6 +45,9 @@
 
   /* Cuerpo del brief */
   .section{margin:0 0 6px;}
+  .keep{break-inside:avoid;page-break-inside:avoid;}
+  .keep ul{margin-bottom:0;}
+  .keep + ul{margin-top:0;}
   .doc-body h2{color:var(--primario);font-size:17px;font-weight:700;margin:22px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--acento);}
   .doc-body h3{color:var(--primario);font-size:14px;font-weight:600;margin:14px 0 4px;}
   .doc-body p{margin:8px 0;font-size:13.5px;line-height:1.6;color:var(--texto);}
@@ -82,7 +85,7 @@
     .wrap{ padding:0 !important; max-width:none !important; }
     .page{ box-shadow:none !important; border-radius:0 !important; }
     .doc-head,.ficha,.ficha-item,.doc-foot,.cta-cal,.doc-body h2,.ficha-k,.badge-int,.kicker{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-    .ficha,.doc-head{ break-inside:avoid; page-break-inside:avoid; }
+    .ficha,.doc-head,.keep,p,li,.cta-cal{ break-inside:avoid; page-break-inside:avoid; }
   }
 </style>
 </head>
@@ -147,32 +150,42 @@
       .replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
   }
 
-  // Renderiza el cuerpo del brief (sin H1 ni ficha — esos van aparte)
+  // Renderiza el cuerpo del brief (sin H1 ni ficha — esos van aparte).
+  // Cada título (h2) se envuelve con su PRIMER bloque (párrafo o primera viñeta) en un .keep
+  // para que el corte de página nunca deje un título solo al pie (huérfano).
   function mdToHtml(md){
     var lines = md.split('\n');
-    var html='', inList=false, inPara=false, inSection=false;
-    function closeList(){ if(inList){ html+='</ul>'; inList=false; } }
-    function closePara(){ if(inPara){ html+='</p>'; inPara=false; } }
-    function closeSection(){ if(inSection){ html+='</div>'; inSection=false; } }
+    var html='', inList=false, inPara=false, inSection=false, keepOpen=false, keepArmed=false;
+    function closeKeep(){ if(keepOpen){ html+='</div>'; } keepOpen=false; keepArmed=false; }
+    function afterBlock(){ if(keepArmed){ closeKeep(); } }
+    function closeList(){ if(inList){ html+='</ul>'; inList=false; afterBlock(); } }
+    function closePara(){ if(inPara){ html+='</p>'; inPara=false; afterBlock(); } }
+    function closeSection(){ closeList(); closePara(); closeKeep(); if(inSection){ html+='</div>'; inSection=false; } }
     for (var i=0;i<lines.length;i++){
       var raw = lines[i];
-      if (/^# /.test(raw)) { closeList(); closePara(); closeSection(); /* H1 va en el header */ }
+      if (/^# /.test(raw)) { closeSection(); /* H1 va en el header */ }
       else if (/^## /.test(raw)) {
-        closeList(); closePara(); closeSection();
-        html += '<div class="section"><h2>' + esc(raw.replace(/^## /,'')) + '</h2>'; inSection=true;
+        closeSection();
+        html += '<div class="section"><div class="keep"><h2>' + esc(raw.replace(/^## /,'')) + '</h2>';
+        inSection=true; keepOpen=true; keepArmed=true;
       }
       else if (/^### /.test(raw)) { closeList(); closePara(); html += '<h3>' + esc(raw.replace(/^### /,'')) + '</h3>'; }
-      else if (/^- /.test(raw)) { closePara(); if(!inList){ html+='<ul>'; inList=true; } html += '<li>' + inline(esc(raw.replace(/^- /,''))) + '</li>'; }
-      else if (/^---$/.test(raw)) { closeList(); closePara(); html += '<hr>'; }
+      else if (/^- /.test(raw)) {
+        closePara();
+        if(!inList){ html+='<ul>'; inList=true; }
+        html += '<li>' + inline(esc(raw.replace(/^- /,''))) + '</li>';
+        if(keepArmed){ html+='</ul>'; inList=false; closeKeep(); } // keep = título + 1.ª viñeta
+      }
+      else if (/^---$/.test(raw)) { closeList(); closePara(); closeKeep(); html += '<hr>'; }
       else if (raw.trim()==='') { closeList(); closePara(); }
       else {
         closeList();
-        if(/^%%CTA%%$/.test(raw.trim())){ closePara(); html += '<a class="cta-cal" href="https://calendly.com/estrategia-dbaifinance/30min" target="_blank" rel="noopener">Agendar reunión de 45 minutos →</a>'; continue; }
+        if(/^%%CTA%%$/.test(raw.trim())){ closePara(); closeKeep(); html += '<a class="cta-cal" href="https://calendly.com/estrategia-dbaifinance/30min" target="_blank" rel="noopener">Agendar reunión de 45 minutos →</a>'; continue; }
         if(!inPara){ html+='<p>'; inPara=true; } else { html+='<br>'; }
         html += inline(esc(raw));
       }
     }
-    closeList(); closePara(); closeSection();
+    closeSection();
     return html;
   }
 
@@ -269,12 +282,12 @@
       if (typeof html2pdf !== 'function') { done(); window.print(); return; }
       var c = buildClone();
       var opt = {
-        margin: 0,
+        margin: [12, 0, 14, 0],
         filename: DOC_TITLE + '.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: 794, windowWidth: 794, scrollX: 0, scrollY: 0, x: 0, y: 0 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-        pagebreak: { mode: ['css', 'legacy'], avoid: ['.ficha', '.doc-head'] }
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.ficha', '.doc-head', '.keep', 'li', '.cta-cal'] }
       };
       html2pdf().set(opt).from(c.clone).save()
         .then(function(){ done(c.holder); })
