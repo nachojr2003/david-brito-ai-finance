@@ -128,6 +128,17 @@
       <div class="grid-2">
         <div class="field"><label>Razón social<span class="req">*</span></label><input type="text" name="razon_social" required maxlength="160" /></div>
         <div class="field"><label>RUC</label><input type="text" name="ruc" maxlength="20" placeholder="20XXXXXXXXX" /></div>
+        <div class="field">
+          <label>Régimen tributario</label>
+          <select name="regimen_tributario">
+            <option value="">Selecciona...</option>
+            <option value="Régimen General">Régimen General</option>
+            <option value="Régimen MYPE Tributario (RMT)">Régimen MYPE Tributario (RMT)</option>
+            <option value="Régimen Especial de Renta (RER)">Régimen Especial de Renta (RER)</option>
+            <option value="Nuevo RUS">Nuevo RUS</option>
+            <option value="No estoy seguro">No estoy seguro</option>
+          </select>
+        </div>
         <div class="field"><label>Antigüedad <span class="hint">(años de operación)</span></label><input type="text" name="antiguedad" maxlength="20" placeholder="Ej. 8 años" /></div>
         <div class="field">
           <label>¿Tu empresa es agroexportadora?<span class="req">*</span></label>

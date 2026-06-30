@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Brief Pre-Reunión · David Brito · AI Finance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primario:#0F2A22; --acento:#EBBA58; --dorado-dark:#BA800C;
+    --gris:#484848; --bg:#F5F8F6; --texto:#1F2937; --borde:#E5E7EB;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--texto);line-height:1.55;-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:840px;margin:0 auto;padding:28px 18px 120px;}
+
+  /* Estado */
+  .state{max-width:560px;margin:80px auto;text-align:center;color:var(--gris);font-size:15px;padding:0 20px;}
+  .state h2{color:var(--primario);font-size:20px;margin:0 0 8px;}
+  .spinner{width:34px;height:34px;border:3px solid rgba(15,42,34,.15);border-top-color:var(--primario);border-radius:50%;margin:0 auto 18px;animation:spin .8s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* Documento (esto es lo que se captura al PDF) */
+  .page{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 6px 28px rgba(15,42,34,.10);}
+  .doc-head{background:var(--primario);color:#fff;padding:26px 34px;display:flex;align-items:center;gap:18px;}
+  .doc-head .logo{width:74px;height:74px;background:#fff;border-radius:12px;flex-shrink:0;display:flex;align-items:center;justify-content:center;padding:9px;}
+  .doc-head .logo img{display:block;max-width:100%;max-height:100%;}
+  .doc-head .kicker{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--acento);font-weight:600;margin-bottom:4px;}
+  .doc-head h1{margin:0;font-size:23px;font-weight:800;line-height:1.2;}
+  .doc-head .sub{font-size:12.5px;color:rgba(255,255,255,.78);margin-top:5px;}
+  .badge-int{display:inline-block;margin-top:8px;background:var(--acento);color:var(--primario);font-size:10.5px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;padding:2px 9px;border-radius:999px;}
+
+  .doc-body{padding:26px 34px 30px;}
+
+  /* Ficha del cliente */
+  .ficha{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--borde);border:1px solid var(--borde);border-radius:12px;overflow:hidden;margin:0 0 24px;}
+  .ficha-item{background:#fff;padding:11px 16px;}
+  .ficha-k{display:block;font-size:10.5px;letter-spacing:.6px;text-transform:uppercase;color:var(--dorado-dark);font-weight:600;margin-bottom:2px;}
+  .ficha-v{display:block;font-size:14px;color:var(--primario);font-weight:600;word-break:break-word;}
+  .ficha-title{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--gris);font-weight:600;margin:0 0 10px;}
+
+  /* Cuerpo del brief */
+  .section{margin:0 0 6px;page-break-inside:avoid;break-inside:avoid;}
+  .doc-body h2{color:var(--primario);font-size:17px;font-weight:700;margin:22px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--acento);}
+  .doc-body h3{color:var(--primario);font-size:14px;font-weight:600;margin:14px 0 4px;}
+  .doc-body p{margin:8px 0;font-size:13.5px;line-height:1.6;color:var(--texto);}
+  .doc-body ul{padding-left:20px;margin:6px 0;}
+  .doc-body li{margin:5px 0;font-size:13.5px;line-height:1.55;color:var(--texto);}
+  .doc-body strong{color:var(--primario);}
+  .doc-body a{color:var(--dorado-dark);text-decoration:none;word-break:break-word;}
+  .doc-body hr{border:none;border-top:1px solid var(--borde);margin:18px 0;}
+  .cta-cal{display:inline-block;background:var(--acento);color:var(--primario);font-weight:700;text-decoration:none;padding:12px 26px;border-radius:8px;font-size:14px;margin:10px 0;}
+
+  .doc-foot{background:#FFF4DC;border-top:1px solid var(--acento);padding:14px 34px;font-size:11px;color:var(--dorado-dark);line-height:1.5;}
+  .doc-foot a{color:var(--dorado-dark);}
+
+  /* Botón flotante de descarga (fuera del área capturada) */
+  .dl-bar{position:fixed;right:20px;bottom:20px;z-index:50;display:flex;gap:10px;align-items:center;}
+  .dl-btn{font-family:inherit;font-size:14px;font-weight:700;border:none;cursor:pointer;border-radius:999px;padding:14px 24px;background:var(--primario);color:var(--acento);box-shadow:0 6px 20px rgba(15,42,34,.28);transition:transform .12s,box-shadow .15s;display:inline-flex;align-items:center;gap:9px;}
+  .dl-btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(15,42,34,.34);}
+  .dl-btn:disabled{opacity:.6;cursor:default;transform:none;}
+  .dl-btn svg{width:18px;height:18px;}
+
+  @media (max-width:640px){
+    .wrap{padding:18px 12px 110px;}
+    .doc-head{padding:22px 20px;gap:14px;}
+    .doc-head .logo{width:60px;height:60px;}
+    .doc-head h1{font-size:19px;}
+    .doc-body{padding:22px 20px 26px;}
+    .doc-foot{padding:12px 20px;}
+    .ficha{grid-template-columns:1fr;}
+    .dl-btn{padding:13px 20px;font-size:13.5px;}
+  }
+  @media print{
+    .dl-bar{display:none !important;}
+    body{background:#fff;}
+    .wrap{padding:0;max-width:none;}
+    .page{box-shadow:none;border-radius:0;}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div id="loading" class="state">
+    <div class="spinner"></div>
+    <p>Cargando tu brief…</p>
+  </div>
+  <div id="error" class="state" style="display:none;">
+    <h2 id="errTitle">No pudimos abrir este brief</h2>
+    <p id="errMsg">El enlace no es válido o expiró. Escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a> y te reenviamos tu brief.</p>
+  </div>
+  <div id="doc" class="page" style="display:none;">
+    <div class="doc-head">
+      <div class="logo"><img src="/Logo1.png" alt="David Brito · AI Finance" /></div>
+      <div>
+        <div class="kicker">Diagnóstico Financiero Express</div>
+        <h1 id="docTitle">Brief Pre-Reunión</h1>
+        <div class="sub">David Brito · AI Finance</div>
+        <span id="badgeInt" class="badge-int" style="display:none;">Versión interna · David</span>
+      </div>
+    </div>
+    <div class="doc-body">
+      <div id="fichaWrap"></div>
+      <div id="briefBody"></div>
+    </div>
+    <div class="doc-foot">
+      Documento confidencial generado por David Brito · AI Finance. Tratamos tus datos conforme a la
+      <a href="/politica-privacidad" target="_blank" rel="noopener">Política de Privacidad</a> (Ley 29733). · Powered by
+      <a href="https://ijvagency.com/" target="_blank" rel="noopener">IJV Agency</a>.
+    </div>
+  </div>
+</div>
+
+<div id="dlBar" class="dl-bar" style="display:none;">
+  <button id="dlBtn" class="dl-btn">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+    <span id="dlLabel">Descargar Brief en PDF</span>
+  </button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/html2pdf.js@0.10.1/dist/html2pdf.bundle.min.js"></script>
+<script>
+(function(){
+  var WEBHOOK = 'https://meta.ijvagency.com/webhook/dbrito-brief-view';
+
+  function gp(name){ try { return (new URL(window.location.href).searchParams.get(name) || '').trim(); } catch(e){ return ''; } }
+  var Q = { id: gp('id') || gp('brief_id'), token: gp('token'), v: gp('v'), k: gp('k') };
+
+  var $loading = document.getElementById('loading');
+  var $error = document.getElementById('error');
+  var $doc = document.getElementById('doc');
+  var $dlBar = document.getElementById('dlBar');
+
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  function inline(s){
+    return s
+      .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+      .replace(/\*(.+?)\*/g,'<em>$1</em>')
+      .replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" rel="noopener">$1</a>');
+  }
+
+  // Renderiza el cuerpo del brief (sin H1 ni ficha — esos van aparte)
+  function mdToHtml(md){
+    var lines = md.split('\n');
+    var html='', inList=false, inPara=false, inSection=false;
+    function closeList(){ if(inList){ html+='</ul>'; inList=false; } }
+    function closePara(){ if(inPara){ html+='</p>'; inPara=false; } }
+    function closeSection(){ if(inSection){ html+='</div>'; inSection=false; } }
+    for (var i=0;i<lines.length;i++){
+      var raw = lines[i];
+      if (/^# /.test(raw)) { closeList(); closePara(); closeSection(); /* H1 va en el header */ }
+      else if (/^## /.test(raw)) {
+        closeList(); closePara(); closeSection();
+        html += '<div class="section"><h2>' + esc(raw.replace(/^## /,'')) + '</h2>'; inSection=true;
+      }
+      else if (/^### /.test(raw)) { closeList(); closePara(); html += '<h3>' + esc(raw.replace(/^### /,'')) + '</h3>'; }
+      else if (/^- /.test(raw)) { closePara(); if(!inList){ html+='<ul>'; inList=true; } html += '<li>' + inline(esc(raw.replace(/^- /,''))) + '</li>'; }
+      else if (/^---$/.test(raw)) { closeList(); closePara(); html += '<hr>'; }
+      else if (raw.trim()==='') { closeList(); closePara(); }
+      else {
+        closeList();
+        if(/^%%CTA%%$/.test(raw.trim())){ closePara(); html += '<a class="cta-cal" href="https://calendly.com/estrategia-dbaifinance/30min" target="_blank" rel="noopener">Agendar reunión de 45 minutos →</a>'; continue; }
+        if(!inPara){ html+='<p>'; inPara=true; } else { html+='<br>'; }
+        html += inline(esc(raw));
+      }
+    }
+    closeList(); closePara(); closeSection();
+    return html;
+  }
+
+  function buildFicha(md){
+    var m = md.match(/##\s*Ficha del cliente\s*\n([\s\S]*?)(?=\n##\s|\n---|$)/);
+    if (!m) return { html:'', rest: md };
+    var rows = m[1].split('\n').filter(function(l){ return /^- /.test(l); }).map(function(l){
+      var mm = l.replace(/^- /,'').match(/^\*\*(.+?):\*\*\s*([\s\S]*)$/);
+      if (mm) return { k: mm[1], v: mm[2] };
+      return { k:'', v: l.replace(/^- /,'') };
+    });
+    var items = rows.map(function(r){
+      return '<div class="ficha-item"><span class="ficha-k">'+esc(r.k)+'</span><span class="ficha-v">'+esc(r.v)+'</span></div>';
+    }).join('');
+    var html = '<div class="ficha-title">Ficha del cliente</div><div class="ficha">'+items+'</div>';
+    var rest = md.replace(m[0], '');
+    return { html: html, rest: rest };
+  }
+
+  function showError(title, msg){
+    $loading.style.display='none';
+    if (title) document.getElementById('errTitle').textContent = title;
+    if (msg) document.getElementById('errMsg').innerHTML = msg;
+    $error.style.display='';
+  }
+
+  function sanitizeFilename(s){
+    return String(s||'Brief').replace(/[^\w\sáéíóúñÁÉÍÓÚÑ.-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'').slice(0,60) || 'Brief';
+  }
+
+  var DOC_TITLE = 'Brief';
+
+  function render(res){
+    var razon = res.razon_social || 'David Brito · AI Finance';
+    document.getElementById('docTitle').textContent = 'Brief Pre-Reunión — ' + razon;
+    if (res.view === 'full') document.getElementById('badgeInt').style.display='inline-block';
+
+    // Prepara CTA Calendly como marcador antes de renderizar
+    var md = String(res.brief_md || '').replace(/^\*\*Agenda tu sesi[^\n]*45 minutos con David[^\n]*$/m, '\n%%CTA%%\n');
+
+    var f = buildFicha(md);
+    document.getElementById('fichaWrap').innerHTML = f.html;
+    document.getElementById('briefBody').innerHTML = mdToHtml(f.rest);
+
+    DOC_TITLE = 'Brief-' + sanitizeFilename(razon) + '-DavidBrito-AIFinance';
+
+    $loading.style.display='none';
+    $doc.style.display='';
+    $dlBar.style.display='flex';
+    document.title = DOC_TITLE;
+  }
+
+  var pdfRunning = false;
+  document.getElementById('dlBtn').addEventListener('click', function(){
+    if (pdfRunning) return; pdfRunning = true;
+    var btn = this;
+    var el = document.getElementById('doc');
+    var $label = document.getElementById('dlLabel');
+    btn.disabled = true; var prev = $label.textContent; $label.textContent = 'Preparando PDF…';
+    function done(){ btn.disabled=false; $label.textContent=prev; pdfRunning=false; }
+    function run(){
+      if (typeof html2pdf !== 'function') { done(); window.print(); return; }
+      var opt = {
+        margin: [8, 8, 12, 8],
+        filename: DOC_TITLE + '.pdf',
+        image: { type: 'jpeg', quality: 0.97 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, windowWidth: el.scrollWidth },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.section', '.ficha', 'h2'] }
+      };
+      html2pdf().set(opt).from(el).save().then(done).catch(function(){ done(); window.print(); });
+    }
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(run); }
+    else { run(); }
+  });
+
+  // ── Init ──
+  if (!Q.id || !Q.token) {
+    showError('Enlace incompleto', 'Este enlace no es válido. Abre el botón "Descargar Brief en PDF" desde el correo de tu Diagnóstico, o escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a>.');
+    return;
+  }
+  fetch(WEBHOOK, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(Q) })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      if (!res || res.ok === false) {
+        showError(null, 'El enlace no es válido o expiró. Escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a> y te reenviamos tu brief.');
+        return;
+      }
+      render(res);
+    })
+    .catch(function(){
+      showError('No pudimos cargar el brief', 'Hubo un problema de conexión. Recarga la página en unos segundos. Si persiste, escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a>.');
+    });
+})();
+</script>
+
+</body>
+</html>
