@@ -293,7 +293,11 @@
     .then(function(r){ return r.json(); })
     .then(function(res){
       if (!res || res.ok === false) {
-        showError(null, 'El enlace no es válido o expiró. Escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a> y te reenviamos tu brief.');
+        if (res && res.state === 'expired') {
+          showError('Tu enlace venció', 'Este brief estuvo disponible durante 30 días. Para reabrirlo, escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a> y te lo reenviamos.');
+        } else {
+          showError(null, 'El enlace no es válido o expiró. Escríbenos a <a href="mailto:estrategia@dbaifinance.com" style="color:var(--dorado-dark);">estrategia@dbaifinance.com</a> y te reenviamos tu brief.');
+        }
         return;
       }
       render(res);
