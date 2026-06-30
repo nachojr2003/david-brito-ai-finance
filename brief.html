@@ -76,10 +76,13 @@
     .dl-btn{padding:13px 20px;font-size:13.5px;}
   }
   @media print{
-    .dl-bar{display:none !important;}
-    body{background:#fff;}
-    .wrap{padding:0;max-width:none;}
-    .page{box-shadow:none;border-radius:0;}
+    @page{ size:A4; margin:12mm; }
+    html,body{ background:#fff !important; -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    .dl-bar{ display:none !important; }
+    .wrap{ padding:0 !important; max-width:none !important; }
+    .page{ box-shadow:none !important; border-radius:0 !important; }
+    .doc-head,.ficha,.ficha-item,.doc-foot,.cta-cal,.doc-body h2,.ficha-k,.badge-int,.kicker{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    .section,.ficha,.doc-head,li,h2,h3{ break-inside:avoid; page-break-inside:avoid; }
   }
 </style>
 </head>
@@ -223,27 +226,62 @@
   }
 
   var pdfRunning = false;
+
+  // Construye un CLON aislado del documento a ancho fijo A4 (794px @96dpi), anclado en (0,0).
+  // Esto elimina el centrado/padding del .wrap, el scroll de la página y el botón flotante,
+  // que son los que causaban el recorte por la izquierda en la captura de html2canvas.
+  function buildClone(){
+    var src = document.getElementById('doc');
+    var holder = document.createElement('div');
+    holder.id = 'pdfHolder';
+    holder.style.cssText = 'position:fixed;left:0;top:0;width:794px;z-index:-1;background:#ffffff;';
+    var clone = src.cloneNode(true);
+    clone.style.width = '794px';
+    clone.style.maxWidth = 'none';
+    clone.style.margin = '0';
+    clone.style.borderRadius = '0';
+    clone.style.boxShadow = 'none';
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+    return { holder: holder, clone: clone };
+  }
+  // Overlay para tapar el parpadeo del clon y dar feedback mientras se genera.
+  function showOverlay(){
+    var ov = document.createElement('div');
+    ov.id = 'pdfOverlay';
+    ov.style.cssText = 'position:fixed;inset:0;background:rgba(245,248,246,.97);z-index:99999;display:flex;align-items:center;justify-content:center;font-family:Outfit,system-ui,sans-serif;color:#0F2A22;font-weight:600;font-size:15px;';
+    ov.innerHTML = '<div style="text-align:center;"><div style="width:34px;height:34px;border:3px solid rgba(15,42,34,.15);border-top-color:#0F2A22;border-radius:50%;margin:0 auto 14px;animation:spin .8s linear infinite;"></div>Preparando tu PDF…</div>';
+    document.body.appendChild(ov);
+    return ov;
+  }
+
   document.getElementById('dlBtn').addEventListener('click', function(){
     if (pdfRunning) return; pdfRunning = true;
-    var btn = this;
-    var el = document.getElementById('doc');
-    var $label = document.getElementById('dlLabel');
+    var btn = this, $label = document.getElementById('dlLabel');
     btn.disabled = true; var prev = $label.textContent; $label.textContent = 'Preparando PDF…';
-    function done(){ btn.disabled=false; $label.textContent=prev; pdfRunning=false; }
+    var ov = showOverlay();
+    function done(holder){
+      if (holder) holder.remove();
+      if (ov) ov.remove();
+      btn.disabled = false; $label.textContent = prev; pdfRunning = false;
+    }
     function run(){
       if (typeof html2pdf !== 'function') { done(); window.print(); return; }
+      var c = buildClone();
       var opt = {
-        margin: [8, 8, 12, 8],
+        margin: 0,
         filename: DOC_TITLE + '.pdf',
-        image: { type: 'jpeg', quality: 0.97 },
-        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollY: 0, windowWidth: el.scrollWidth },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['css', 'legacy'], avoid: ['.section', '.ficha', 'h2'] }
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: 794, windowWidth: 794, scrollX: 0, scrollY: 0, x: 0, y: 0 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.section', '.ficha', '.doc-head', 'h2', 'li'] }
       };
-      html2pdf().set(opt).from(el).save().then(done).catch(function(){ done(); window.print(); });
+      html2pdf().set(opt).from(c.clone).save()
+        .then(function(){ done(c.holder); })
+        .catch(function(){ done(c.holder); window.print(); });
     }
-    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(run); }
-    else { run(); }
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(function(){ setTimeout(run, 60); }); }
+    else { setTimeout(run, 60); }
   });
 
   // ── Init ──
