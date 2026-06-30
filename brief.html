@@ -44,7 +44,7 @@
   .ficha-title{font-size:11px;letter-spacing:.8px;text-transform:uppercase;color:var(--gris);font-weight:600;margin:0 0 10px;}
 
   /* Cuerpo del brief */
-  .section{margin:0 0 6px;page-break-inside:avoid;break-inside:avoid;}
+  .section{margin:0 0 6px;}
   .doc-body h2{color:var(--primario);font-size:17px;font-weight:700;margin:22px 0 8px;padding-bottom:6px;border-bottom:2px solid var(--acento);}
   .doc-body h3{color:var(--primario);font-size:14px;font-weight:600;margin:14px 0 4px;}
   .doc-body p{margin:8px 0;font-size:13.5px;line-height:1.6;color:var(--texto);}
@@ -82,7 +82,7 @@
     .wrap{ padding:0 !important; max-width:none !important; }
     .page{ box-shadow:none !important; border-radius:0 !important; }
     .doc-head,.ficha,.ficha-item,.doc-foot,.cta-cal,.doc-body h2,.ficha-k,.badge-int,.kicker{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
-    .section,.ficha,.doc-head,li,h2,h3{ break-inside:avoid; page-break-inside:avoid; }
+    .ficha,.doc-head{ break-inside:avoid; page-break-inside:avoid; }
   }
 </style>
 </head>
@@ -274,7 +274,7 @@
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2, useCORS: true, backgroundColor: '#ffffff', width: 794, windowWidth: 794, scrollX: 0, scrollY: 0, x: 0, y: 0 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait', compress: true },
-        pagebreak: { mode: ['css', 'legacy'], avoid: ['.section', '.ficha', '.doc-head', 'h2', 'li'] }
+        pagebreak: { mode: ['css', 'legacy'], avoid: ['.ficha', '.doc-head'] }
       };
       html2pdf().set(opt).from(c.clone).save()
         .then(function(){ done(c.holder); })
