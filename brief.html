@@ -14,6 +14,9 @@
     --gris:#484848; --bg:#F5F8F6; --texto:#1F2937; --borde:#E5E7EB;
   }
   *{box-sizing:border-box;}
+  /* Desactiva el "font boosting" de navegadores móviles: sin esto, al generar el PDF en celular
+     html2canvas infla las fuentes (más grandes que en PC) y el contenido desborda/se corta. */
+  html{-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:100%;}
   html,body{margin:0;padding:0;}
   body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--texto);line-height:1.55;-webkit-font-smoothing:antialiased;}
   .wrap{max-width:840px;margin:0 auto;padding:28px 18px 120px;}
@@ -254,6 +257,11 @@
     clone.style.margin = '0';
     clone.style.borderRadius = '0';
     clone.style.boxShadow = 'none';
+    // Refuerzo anti font-boosting móvil (que el clon renderice con las MISMAS fuentes que en PC).
+    clone.style.setProperty('-webkit-text-size-adjust', '100%', 'important');
+    clone.style.setProperty('text-size-adjust', '100%', 'important');
+    holder.style.setProperty('-webkit-text-size-adjust', '100%', 'important');
+    holder.style.setProperty('text-size-adjust', '100%', 'important');
     holder.appendChild(clone);
     document.body.appendChild(holder);
     return { holder: holder, clone: clone };
