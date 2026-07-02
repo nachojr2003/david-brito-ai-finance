@@ -24,6 +24,9 @@ Screenshot *.png
 # Templates internos (David los sube a su Drive privado)
 Hoja_Propuesta_*.xlsx
 
+# Plantillas N1 pagadas (FinanStart/FinanPro) + especificación del cliente — producto que se VENDE, jamás al repo público
+Servicios N1/
+
 # Notas internas, snapshots de workflows y versiones para developer (no van al repo público)
 TODO-*.md
 n8n/
