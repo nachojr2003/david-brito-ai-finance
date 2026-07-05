@@ -4,7 +4,7 @@
     n8nBase:        'https://meta.ijvagency.com',
     timeoutMs:      45000,
     maxRetries:     1,
-    welcomeMessage: 'Hola, soy el asistente IA de **David Brito · AI Finance**.\n\nDavid es ex banquero corporativo (BBVA, Interbank · USD 30M+ en cartera) y hoy ayuda a empresarios LATAM a **ordenar sus finanzas, estructurar deuda y acceder a financiamiento con criterio**.\n\nPara situarte mejor — ¿cuéntame de tu empresa: a qué se dedica y de qué tamaño es aproximadamente?'
+    welcomeMessage: 'Hola, soy el asistente IA de **David Brito · AI Finance**.\n\nDavid es ex banquero corporativo (BBVA, Interbank · USD 30M+ en cartera) y hoy ayuda a empresarios LATAM a **ordenar sus finanzas, estructurar deuda y acceder a financiamiento con criterio**.\n\nDe bienvenida, algo gratis: la guía **"Cómo hacer que los bancos compitan por tu empresa"**. Pídemela y te la envío a tu correo, sin costo.\n\nPara orientarte mejor, cuéntame: ¿a qué se dedica tu empresa y cuál es tu mayor reto financiero hoy?'
   };
   var CFG = window.dbritoAgentConfig = window.dbritoAgentConfig || {};
   for (var __k in DEFAULTS) { if (CFG[__k] === undefined || CFG[__k] === null) CFG[__k] = DEFAULTS[__k]; }
@@ -211,6 +211,7 @@
     messages.innerHTML = '';
     addMsg('bot', CFG.welcomeMessage);
     setQuickButtons([
+      { label: 'Quiero la guía gratis', onClick: function () { sendMessage('Quiero la guía gratuita de financiamiento'); } },
       { label: 'Tengo un negocio creciendo', onClick: function () { sendMessage('Tengo un negocio creciendo y quiero ordenar sus finanzas'); } },
       { label: 'Necesito financiamiento',    onClick: function () { sendMessage('Estoy buscando financiamiento para mi empresa'); } },
       { label: 'Agendar diagnóstico',     onClick: function () { showLeadForm(); } }
