@@ -213,8 +213,7 @@
     setQuickButtons([
       { label: 'Quiero la guía gratis', onClick: function () { sendMessage('Quiero la guía gratuita de financiamiento'); } },
       { label: 'Tengo un negocio creciendo', onClick: function () { sendMessage('Tengo un negocio creciendo y quiero ordenar sus finanzas'); } },
-      { label: 'Necesito financiamiento',    onClick: function () { sendMessage('Estoy buscando financiamiento para mi empresa'); } },
-      { label: 'Agendar diagnóstico',     onClick: function () { showLeadForm(); } }
+      { label: 'Necesito financiamiento',    onClick: function () { sendMessage('Estoy buscando financiamiento para mi empresa'); } }
     ]);
   }
 
@@ -240,89 +239,10 @@
     var typingEl = addMsg('bot', '', { typing: true });
     callAgent(msg).then(function (data) {
       var responseText = data.output || data.response || 'Sin respuesta.';
-      typeOn(typingEl, responseText, function () {
-        var t = responseText.toLowerCase();
-        if (/\b(contactar|equipo|coordinar|asesor|reuni[oó]n|agendar|d[eé]jame tus datos|dejarme tus datos)\b/.test(t)) addLeadCTA();
-      });
+      typeOn(typingEl, responseText);
     }).catch(function () {
       typingEl.innerHTML = '<em style="color:#b91c1c">Hubo un problema. Por favor intenta nuevamente.</em>';
     }).finally(function () { sending = false; sendBtn.disabled = false; scrollToBottom(); });
-  }
-
-  function addLeadCTA() {
-    if (formHost.querySelector('.dbr-form')) return;
-    // Desactiva cualquier CTA previo (si el usuario lo ignoró tipeando) y muestra uno fresco
-    var prev = messages.querySelectorAll('.dbr-inline-cta');
-    prev.forEach(function (p) { p.disabled = true; p.style.opacity = '.4'; p.removeAttribute('data-active'); });
-    var btn = $('button', { class: 'dbr-inline-cta', type: 'button', 'data-active': '1' },
-      '<svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg> Agendar reunión');
-    btn.onclick = function () {
-      btn.disabled = true;
-      btn.style.opacity = '.5';
-      btn.removeAttribute('data-active');
-      showLeadForm();
-    };
-    messages.appendChild(btn);
-    scrollToBottom();
-  }
-
-  function showLeadForm() {
-    if (formHost.querySelector('.dbr-form')) return;
-    clearForm();
-    var f = $('form', { class: 'dbr-form', autocomplete: 'on' });
-    f.innerHTML =
-      '<button type="button" class="dbr-form-close" aria-label="Cerrar formulario" title="Cerrar"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg></button>' +
-      '<p class="dbr-form-title">Coordinemos una reunión con David</p>' +
-      '<p class="dbr-form-sub">Sesión de 45 minutos con David, uno a uno. Él te contactará personalmente.</p>' +
-      '<input class="hp" name="hp" tabindex="-1" autocomplete="off">' +
-      '<input name="nombre" placeholder="Nombre completo*" required maxlength="120">' +
-      '<div class="row"><input name="email" type="email" placeholder="Email*" required maxlength="120">' +
-                     '<input name="telefono" placeholder="Celular" maxlength="40"></div>' +
-      '<input name="empresa" placeholder="Empresa" maxlength="120">' +
-      '<select name="segmento">' +
-        '<option value="">Tamaño de empresa (opcional)</option>' +
-        '<option value="Microempresa">Microempresa — hasta USD 150K/año</option>' +
-        '<option value="Pequeña Empresa">Pequeña — USD 150K – 1.7M/año</option>' +
-        '<option value="Mediana Empresa">Mediana — USD 1.7M – 23M/año</option>' +
-        '<option value="Gran Empresa">Gran Empresa — USD 23M – 100M/año</option>' +
-      '</select>' +
-      '<textarea name="consulta" placeholder="Cuéntame brevemente tu situación o lo que necesitas..." maxlength="500"></textarea>' +
-      '<div class="dbr-form-actions"><button type="submit" class="submit">Solicitar reunión</button>' +
-      '<button type="button" class="cancel">Cancelar</button></div>';
-    f.querySelector('.cancel').onclick = clearForm;
-    f.querySelector('.dbr-form-close').onclick = clearForm;
-    f.onsubmit = function (e) {
-      e.preventDefault();
-      var fd = new FormData(f);
-      var body = { hp: fd.get('hp') };
-      ['nombre','email','telefono','empresa','segmento','consulta'].forEach(function (k) { body[k] = fd.get(k); });
-      f.querySelector('.submit').disabled = true;
-      f.querySelector('.submit').textContent = 'Enviando…';
-      fetch(CFG.leadsWebhook, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
-        .then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); })
-        .then(function () {
-          clearForm();
-          var firstName = (body.nombre || '').split(' ')[0] || '';
-          addMsg('bot', '¡Gracias' + (firstName ? ', ' + firstName : '') + '! Recibí tus datos. David te contactará en las próximas horas.');
-          var cta = $('div', { class: 'dbr-cta' });
-          var calendlyHref = CFG.calendlyUrl || 'https://calendly.com/estrategia-dbaifinance/30min';
-          var waHref = 'https://wa.me/' + (CFG.whatsappNumber || '51907979298') + '?text=Hola%20David%2C%20te%20escribo%20por%20el%20chat%20de%20la%20web';
-          cta.innerHTML =
-            '<p class="dbr-cta-title">Agenda directamente tu reunión</p>' +
-            '<p class="dbr-cta-text">Si prefieres reservar tú mismo el slot que mejor te acomode, abre el calendario y elige día y hora — es el camino más rápido.</p>' +
-            '<a href="' + calendlyHref + '" target="_blank" rel="noopener">Agendar 45 min →</a>' +
-            '<p class="dbr-cta-alt">o escríbele por <a href="' + waHref + '" target="_blank" rel="noopener">WhatsApp</a></p>';
-          messages.appendChild(cta);
-          scrollToBottom();
-        })
-        .catch(function () {
-          f.querySelector('.submit').disabled = false;
-          f.querySelector('.submit').textContent = 'Solicitar reunión';
-          addMsg('bot', 'Hubo un problema enviando tus datos. Intenta nuevamente o escríbele directo a dr.britos79@gmail.com.');
-        });
-    };
-    formHost.appendChild(f);
-    scrollToBottom();
   }
 
   launcher.onclick  = function () { panel.classList.add('open'); launcher.style.display = 'none'; if (!loadHistory().length) welcome(); textarea.focus(); };
