@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>TEST — Checkout Plantillas (David Brito)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{ --green:#0F2A22; --gold:#EBBA58; --goldd:#BA800C; --bg:#F5F8F6; }
+    body{font-family:'Outfit',system-ui,sans-serif;background:var(--bg);color:var(--green);margin:0;padding:48px 20px;text-align:center;}
+    h1{font-size:26px;margin:0 0 4px;} .sub{color:#7a857f;font-size:14px;margin:0 0 32px;}
+    .grid{display:flex;gap:18px;flex-wrap:wrap;justify-content:center;max-width:900px;margin:0 auto;}
+    .card{background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(15,42,34,.10);padding:26px 22px;width:250px;}
+    .lvl{color:var(--goldd);font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;}
+    .name{font-size:22px;font-weight:800;margin:6px 0 2px;}
+    .price{font-size:28px;font-weight:800;margin:10px 0 16px;}
+    button{width:100%;border:none;border-radius:11px;background:var(--gold);color:var(--green);font-family:inherit;font-weight:800;font-size:15px;padding:13px;cursor:pointer;}
+    .note{color:#98a29c;font-size:12px;margin-top:34px;}
+    code{background:#eef4f0;padding:2px 6px;border-radius:5px;}
+  </style>
+</head>
+<body>
+  <h1>Test · Checkout de Plantillas N1</h1>
+  <p class="sub">Banco de pruebas del widget <code>plantilla-checkout.js</code> contra el webhook real de n8n. Al pagar, el flujo entrega la plantilla por correo.</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="lvl">Nivel 01</div><div class="name">FinanStart</div>
+      <div class="price">S/ 49</div>
+      <button onclick="dbritoPlantillaCheckout({ producto:'finanstart', precio:'S/ 49' })">Quiero FinanStart →</button>
+    </div>
+    <div class="card">
+      <div class="lvl">Nivel 02</div><div class="name">FinanPro</div>
+      <div class="price">S/ 109</div>
+      <button onclick="dbritoPlantillaCheckout({ producto:'finanpro', precio:'S/ 109' })">Quiero FinanPro →</button>
+    </div>
+    <div class="card">
+      <div class="lvl">Nivel 03</div><div class="name">FinanDirectivo</div>
+      <div class="price">S/ 179</div>
+      <button onclick="dbritoPlantillaCheckout({ producto:'finandirectivo', precio:'S/ 179' })">Quiero FinanDirectivo →</button>
+    </div>
+  </div>
+
+  <p class="note">Integración en la landing = este mismo <code>&lt;script&gt;</code> + <code>onclick="dbritoPlantillaCheckout({producto:'...'})"</code> en los 3 botones.</p>
+
+  <script>
+    window.dbritoCheckoutConfig = { n8nBase: 'https://meta.ijvagency.com' };
+  </script>
+  <script src="/widget/plantilla-checkout.js"></script>
+</body>
+</html>

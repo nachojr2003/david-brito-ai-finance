@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Gracias — David Brito · AI Finance</title>
+  <link rel="icon" href="/Logo1.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{ --green:#0F2A22; --gold:#EBBA58; --goldd:#BA800C; --text:#484848; --bg:#F5F8F6; }
+    *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+    body{font-family:'Outfit',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;-webkit-text-size-adjust:100%;}
+    .card{background:#fff;width:100%;max-width:520px;border-radius:20px;box-shadow:0 24px 70px rgba(15,42,34,.18);overflow:hidden;}
+    .top{background:var(--green);padding:30px 28px 26px;text-align:center;}
+    .top img{height:52px;width:auto;}
+    .badge{width:74px;height:74px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:38px;margin:18px auto 0;}
+    .badge.ok{background:rgba(235,186,88,.18);}
+    .badge.wait{background:rgba(235,186,88,.14);}
+    .badge.err{background:rgba(255,255,255,.10);}
+    .body{padding:30px 30px 34px;text-align:center;}
+    h1{color:var(--green);font-size:24px;font-weight:800;margin:0 0 12px;line-height:1.2;}
+    p{font-size:15px;line-height:1.6;margin:0 0 14px;}
+    .muted{color:#7a857f;font-size:13px;}
+    .prod{display:inline-block;background:#eef4f0;color:var(--green);font-weight:600;font-size:13px;padding:5px 14px;border-radius:999px;margin:2px 0 18px;}
+    .cta{display:inline-block;background:var(--gold);color:var(--green);font-weight:800;text-decoration:none;font-size:15px;padding:13px 26px;border-radius:11px;margin-top:6px;}
+    .cta.ghost{background:transparent;color:var(--goldd);border:1.5px solid #e3cea0;}
+    .links{margin-top:20px;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;}
+    .foot{margin-top:22px;font-size:12px;color:#98a29c;}
+    .foot a{color:var(--goldd);text-decoration:none;}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="top">
+      <img src="/Logo1.png" alt="David Brito · AI Finance">
+      <div class="badge" id="badge">⏳</div>
+    </div>
+    <div class="body">
+      <h1 id="title">Procesando tu pago…</h1>
+      <div id="prod" class="prod" style="display:none"></div>
+      <p id="msg">Un momento, estamos confirmando el estado de tu pago.</p>
+      <div class="links" id="links"></div>
+      <div class="foot">
+        ¿Alguna duda? Escríbenos a <a href="mailto:estrategia@dbaifinance.com">estrategia@dbaifinance.com</a><br>
+        David Brito · AI Finance — Claridad · Estrategia · Confianza
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var q = new URLSearchParams(location.search);
+      var status = (q.get('status') || q.get('collection_status') || '').toLowerCase();
+      var ext = q.get('external_reference') || '';
+      var SERVICIOS = 'https://aifinance-coral.vercel.app/servicios';
+      var WA = 'https://wa.me/51907979298';
+
+      var PROD = { finanstart:'FinanStart', finanpro:'FinanPro', finandirectivo:'FinanDirectivo' };
+      var m = /^tpl_([a-z]+)_/.exec(ext);
+      if (m && PROD[m[1]]) {
+        var pe = document.getElementById('prod');
+        pe.textContent = 'Plantilla ' + PROD[m[1]];
+        pe.style.display = 'inline-block';
+      }
+
+      var badge = document.getElementById('badge');
+      var title = document.getElementById('title');
+      var msg = document.getElementById('msg');
+      var links = document.getElementById('links');
+
+      function link(href, label, ghost) {
+        var a = document.createElement('a');
+        a.href = href; a.className = 'cta' + (ghost ? ' ghost' : ''); a.textContent = label;
+        if (/^https?:/.test(href)) a.target = '_blank';
+        links.appendChild(a);
+      }
+
+      if (status === 'approved' || status === 'success') {
+        badge.textContent = '✅'; badge.className = 'badge ok';
+        title.textContent = '¡Pago confirmado!';
+        msg.innerHTML = 'Gracias por tu compra. Te enviamos la plantilla en <strong>Excel</strong> + su <strong>manual de uso</strong> a tu correo.<br><span class="muted">Puede tardar un par de minutos. Si no la ves, revisa la carpeta de spam o promociones.</span>';
+        link(SERVICIOS, 'Volver a la página');
+      } else if (status === 'pending' || status === 'in_process' || status === 'in_mediation') {
+        badge.textContent = '⏳'; badge.className = 'badge wait';
+        title.textContent = 'Tu pago está en proceso';
+        msg.innerHTML = 'Estamos esperando la confirmación de Mercado Pago. <strong>Apenas se acredite, te enviamos la plantilla a tu correo automáticamente</strong> — no necesitas hacer nada más.';
+        link(SERVICIOS, 'Volver a la página');
+        link(WA, 'Escribir por WhatsApp', true);
+      } else if (status === 'rejected' || status === 'failure' || status === 'cancelled' || status === 'null') {
+        badge.textContent = '⚠️'; badge.className = 'badge err';
+        title.textContent = 'El pago no se completó';
+        msg.innerHTML = 'No pudimos procesar tu pago. No te preocupes, no se realizó ningún cargo. Puedes intentarlo de nuevo cuando quieras.';
+        link(SERVICIOS, 'Intentar de nuevo');
+        link(WA, 'Escribir por WhatsApp', true);
+      } else {
+        badge.textContent = '💚'; badge.className = 'badge ok';
+        title.textContent = 'Gracias';
+        msg.innerHTML = 'Si completaste tu pago, te enviaremos la plantilla a tu correo apenas se confirme.';
+        link(SERVICIOS, 'Volver a la página');
+      }
+    })();
+  </script>
+</body>
+</html>

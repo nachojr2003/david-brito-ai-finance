@@ -9,6 +9,7 @@
     { "source": "/privacidad", "destination": "/politica-privacidad.html" },
     { "source": "/cargar-sentinel", "destination": "/cargar-sentinel.html" },
     { "source": "/validar-pago", "destination": "/validar-pago.html" },
-    { "source": "/brief", "destination": "/brief.html" }
+    { "source": "/brief", "destination": "/brief.html" },
+    { "source": "/gracias-plantilla", "destination": "/gracias-plantilla.html" }
   ]
 }
