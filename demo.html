@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Demo en video de las plantillas · David Brito · AI Finance</title>
+<meta name="description" content="Mira el demo completo de las plantillas financieras de David Brito · AI Finance: cómo saber cuánto gana de verdad tu negocio, en 5 minutos al día." />
+<link rel="icon" href="/Logo1.png" />
+<link rel="canonical" href="https://drbrito-ai.vercel.app/demo" />
+
+<!-- Open Graph / redes -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="David Brito · AI Finance" />
+<meta property="og:locale" content="es_PE" />
+<meta property="og:url" content="https://drbrito-ai.vercel.app/demo" />
+<meta property="og:title" content="Mira la plantilla en acción — David Brito · AI Finance" />
+<meta property="og:description" content="El demo completo: cómo saber cuánto gana de verdad tu negocio, en 5 minutos al día." />
+<meta property="og:image" content="https://img.youtube.com/vi/JhU13p7SoQM/maxresdefault.jpg" />
+<meta property="og:image:width" content="1280" />
+<meta property="og:image:height" content="720" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Mira la plantilla en acción — David Brito · AI Finance" />
+<meta name="twitter:description" content="El demo completo: cómo saber cuánto gana de verdad tu negocio, en 5 minutos al día." />
+<meta name="twitter:image" content="https://img.youtube.com/vi/JhU13p7SoQM/maxresdefault.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --primario: #0F2A22;
+    --acento: #EBBA58;
+    --dorado-dark: #BA800C;
+    --bg: #F5F8F6;
+    --texto: #1F2937;
+    --gris: #6B7280;
+    --borde: #E5E7EB;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; -moz-text-size-adjust: 100%; text-size-adjust: 100%; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    background: var(--bg); color: var(--texto); line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Header */
+  .header { background: var(--primario); color: #fff; padding: 20px 18px; }
+  .header-inner { max-width: 680px; margin: 0 auto; display: flex; gap: 14px; align-items: center; }
+  .logo-box { width: 54px; height: 54px; background: #fff; border-radius: 11px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; padding: 7px; }
+  .logo-box img { display: block; max-width: 100%; max-height: 100%; }
+  .header .name { font-size: 15px; font-weight: 800; letter-spacing: .5px; line-height: 1.15; }
+  .header .name span { display: block; font-size: 10px; font-weight: 600; letter-spacing: 2px; color: var(--acento); margin-top: 2px; }
+  .header .who { font-size: 11.5px; color: rgba(255,255,255,.66); margin-top: 5px; line-height: 1.4; }
+
+  /* Layout */
+  .wrap { max-width: 680px; margin: 0 auto; padding: 26px 18px 40px; }
+
+  .kicker { display: inline-block; background: rgba(235,186,88,.22); color: var(--dorado-dark); font-size: 10.5px; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; padding: 5px 12px; border-radius: 999px; margin-bottom: 14px; }
+  h1 { color: var(--primario); font-size: 27px; line-height: 1.18; font-weight: 800; margin: 0 0 10px; letter-spacing: -.3px; }
+  .lead { font-size: 15.5px; color: var(--gris); margin: 0 0 22px; }
+  .lead strong { color: var(--primario); font-weight: 600; }
+
+  /* Tarjeta de video */
+  .card { background: #fff; border-radius: 16px; box-shadow: 0 6px 26px rgba(15,42,34,.09); overflow: hidden; }
+  .card-head { padding: 15px 18px 13px; border-bottom: 1px solid var(--borde); display: flex; align-items: baseline; gap: 9px; flex-wrap: wrap; }
+  .card-head .t { font-size: 15px; font-weight: 700; color: var(--primario); }
+  .card-head .meta { font-size: 12px; color: var(--gris); }
+  .video { position: relative; width: 100%; padding-top: 56.25%; background: #0b1e18; }
+  .video iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block; }
+
+  .points { list-style: none; margin: 0; padding: 15px 18px 17px; display: grid; gap: 8px; }
+  .points li { position: relative; padding-left: 22px; font-size: 13.5px; color: var(--texto); line-height: 1.45; }
+  .points li::before { content: ""; position: absolute; left: 4px; top: 8px; width: 7px; height: 7px; border-radius: 50%; background: var(--acento); }
+  .points strong { color: var(--primario); font-weight: 600; }
+
+  /* CTAs */
+  .ctas { display: grid; gap: 11px; margin: 22px 0 0; }
+  .btn {
+    display: flex; align-items: center; justify-content: center; gap: 9px;
+    text-align: center; text-decoration: none; font-family: inherit;
+    font-size: 15.5px; font-weight: 700; line-height: 1.3;
+    padding: 16px 20px; border-radius: 12px; min-height: 54px;
+    transition: transform .12s ease, box-shadow .15s ease;
+  }
+  .btn svg { width: 19px; height: 19px; flex-shrink: 0; }
+  .btn-primary { background: var(--acento); color: var(--primario); box-shadow: 0 5px 18px rgba(235,186,88,.42); }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 9px 24px rgba(235,186,88,.5); }
+  .btn-ghost { background: #fff; color: var(--primario); border: 1.5px solid var(--borde); }
+  .btn-ghost:hover { border-color: var(--acento); transform: translateY(-2px); }
+  .cta-note { text-align: center; font-size: 12.5px; color: var(--gris); margin: 12px 0 0; }
+
+  /* Sección secundaria plegable */
+  .more { margin-top: 32px; background: #fff; border: 1px solid var(--borde); border-radius: 16px; overflow: hidden; }
+  .more > summary {
+    list-style: none; cursor: pointer; padding: 17px 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .more > summary::-webkit-details-marker { display: none; }
+  .more .s-txt { flex: 1; min-width: 0; }
+  .more .s-t { display: block; font-size: 15px; font-weight: 700; color: var(--primario); line-height: 1.3; }
+  .more .s-d { display: block; font-size: 12.5px; color: var(--gris); margin-top: 3px; line-height: 1.45; }
+  .more .chev { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: rgba(235,186,88,.2); color: var(--dorado-dark); display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; transition: transform .2s ease; }
+  .more[open] .chev { transform: rotate(180deg); }
+  .more-body { border-top: 1px solid var(--borde); }
+  .more-body .video { border-radius: 0; }
+  .more-body .inner { padding: 15px 18px 18px; }
+  .more-body p { margin: 0 0 14px; font-size: 13.5px; color: var(--gris); }
+  .more-body p strong { color: var(--primario); font-weight: 600; }
+  .ctas-sm { display: grid; gap: 9px; }
+  .ctas-sm .btn { font-size: 14.5px; padding: 13px 18px; min-height: 48px; }
+
+  /* Footer */
+  .footer { text-align: center; color: var(--gris); font-size: 12px; margin-top: 34px; line-height: 1.7; }
+  .footer a { color: var(--dorado-dark); text-decoration: none; }
+  .footer a:hover { text-decoration: underline; }
+  .footer .brand { color: var(--primario); font-weight: 600; }
+
+  @media (min-width: 620px) {
+    .header { padding: 24px 18px; }
+    h1 { font-size: 33px; }
+    .lead { font-size: 16.5px; }
+    .wrap { padding: 34px 18px 48px; }
+    .ctas { grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ctas-sm { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-inner">
+    <div class="logo-box"><img src="/Logo1.png" alt="David Brito · AI Finance" /></div>
+    <div>
+      <div class="name">DAVID BRITO<span>AI FINANCE</span></div>
+      <div class="who">Ex banquero corporativo · BBVA e Interbank</div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <span class="kicker">Demo en video</span>
+  <h1>Mira la plantilla en acción</h1>
+  <p class="lead">
+    El demo completo que pediste: cómo saber <strong>cuánto gana de verdad tu negocio</strong>, en 5 minutos al día.
+  </p>
+
+  <!-- Video principal: FinanPro -->
+  <section class="card">
+    <div class="card-head">
+      <span class="t">FinanPro</span>
+      <span class="meta">Caso real: un restaurante · 5:37 min</span>
+    </div>
+    <div class="video">
+      <iframe
+        src="https://www.youtube-nocookie.com/embed/JhU13p7SoQM"
+        title="Demo de la plantilla FinanPro — caso real de un restaurante"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen></iframe>
+    </div>
+    <ul class="points">
+      <li>Registras tus ventas y gastos del día y el <strong>Estado de Resultados se arma solo</strong>.</li>
+      <li>Comparas lo tuyo con lo que declara tu contador y la plantilla <strong>te avisa si algo no cuadra</strong>.</li>
+      <li>Ratios con <strong>semáforo</strong>: ves en verde o en rojo dónde ganas y dónde se te va la plata.</li>
+      <li>Incluye <strong>manual en PDF</strong> paso a paso, así que la usas desde el primer día.</li>
+    </ul>
+  </section>
+
+  <div class="ctas">
+    <a class="btn btn-primary" href="https://wa.me/51907979298?text=Quiero%20ver%20el%20video%20demo%20de%20las%20plantillas" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38c1.45.79 3.08 1.21 4.79 1.21h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.15h-.01a8.2 8.2 0 0 1-4.19-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.38c0-4.54 3.7-8.23 8.25-8.23 2.2 0 4.27.86 5.83 2.41a8.19 8.19 0 0 1 2.41 5.83c0 4.54-3.7 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.81-.79.98-.14.16-.29.19-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.51.11-.11.25-.29.37-.43.13-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.42-.56-.43h-.48c-.16 0-.43.06-.65.31-.22.25-.85.83-.85 2.03s.87 2.35.99 2.51c.12.16 1.71 2.61 4.14 3.66.58.25 1.03.4 1.38.51.58.19 1.11.16 1.53.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.47-.29Z"/></svg>
+      Quiero mi plantilla — hablemos por WhatsApp
+    </a>
+    <a class="btn btn-ghost" href="https://aifinance-coral.vercel.app/servicios" target="_blank" rel="noopener">
+      Ver planes y precios
+    </a>
+  </div>
+  <p class="cta-note">Te respondemos por WhatsApp y resolvemos tus dudas antes de que decidas.</p>
+
+  <!-- Secundario: FinanDirectivo -->
+  <details class="more">
+    <summary>
+      <span class="s-txt">
+        <span class="s-t">¿Tu empresa es más grande?</span>
+        <span class="s-d">Mira el demo de FinanDirectivo — pensado para equipos de más de 30 personas.</span>
+      </span>
+      <span class="chev" aria-hidden="true">⌄</span>
+    </summary>
+    <div class="more-body">
+      <div class="video">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/0Z61Q0VUZM8"
+          title="Demo de la plantilla FinanDirectivo — caso real de una clínica"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <div class="inner">
+        <p>
+          <strong>Caso real: una clínica odontológica · 8:32 min.</strong>
+          Suma flujo de caja, escenarios, proyección a 12 meses y una <strong>presentación lista para el banco</strong>.
+        </p>
+        <div class="ctas-sm">
+          <a class="btn btn-primary" href="https://wa.me/51907979298?text=Quiero%20ver%20el%20video%20demo%20de%20las%20plantillas" target="_blank" rel="noopener">Hablemos por WhatsApp</a>
+          <a class="btn btn-ghost" href="https://aifinance-coral.vercel.app/servicios" target="_blank" rel="noopener">Ver planes y precios</a>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <div class="footer">
+    <span class="brand">David Brito · AI Finance</span> — Claridad · Estrategia · Confianza<br>
+    <a href="/politica-privacidad">Política de privacidad</a> · Powered by <a href="https://ijvagency.com/" target="_blank" rel="noopener">IJV Agency</a>
+  </div>
+
+</main>
+
+</body>
+</html>
