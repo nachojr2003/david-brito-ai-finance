@@ -35,3 +35,13 @@ n8n/
 # Fuente del e-book (HTML + assets con fotos de David). Solo se publica el PDF final en la raíz (guia-financiamiento.pdf)
 ebook/
 cowork/
+
+# Meta Ads — auditoría, runbook, propuestas y KB. Contienen gasto publicitario de David, su CAC/ROAS,
+# IDs de cuentas y la evaluación de su proveedor anterior. JAMÁS al repo público.
+META-ADS-RUNBOOK.md
+Meta Ads — Base de Conocimiento Experto para Agente de IA.md
+PLAN-PAUTA-*.md
+propuesta/
+
+# Videos demo croppeados + stills (grabaciones de la plantilla en Meet, contenido interno del cliente)
+videos-demo/
