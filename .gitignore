@@ -32,6 +32,12 @@ TODO-*.md
 n8n/
 *-PARA-DEVELOPER.html
 
+# Runbooks operativos para Nacho (llevan URLs de webhooks, del proxy y detalle de la infra interna)
+CHECKLIST-*.md
+
+# Prompts de producción de contenido (guiones, rutas locales de la máquina y datos del cliente)
+PROMPT-*.md
+
 # Fuente del e-book (HTML + assets con fotos de David). Solo se publica el PDF final en la raíz (guia-financiamiento.pdf)
 ebook/
 cowork/
