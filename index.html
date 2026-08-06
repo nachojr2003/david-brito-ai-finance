@@ -325,6 +325,15 @@ tailwind.config = {
 <!-- ─────────────────────────────────────────────────────────────────────── -->
 <!-- ── DBRITO Chat Widget · IJV Agency ─────────────────────────────────── -->
 <!-- ─────────────────────────────────────────────────────────────────────── -->
+<!--
+  DESACTIVADO 2026-08-05 — cliente en pausa hasta el 1-sep-2026.
+  El workflow `Agent - Chat [DBRITO]` está apagado en n8n, así que el chat
+  respondería con un error a cualquier visitante. Se retira en vez de dejar
+  una burbuja rota. PARA REACTIVAR: encender antes el workflow en n8n (y
+  ManyChat), y recién entonces descomentar este bloque.
+  OJO: el archivo /widget/dbrito-agent.js NO se toca — jsDelivr lo sirve a
+  otros sitios, igual que /widget/plantilla-checkout.js, que sigue en uso.
+
 <script>
 window.dbritoAgentConfig = window.dbritoAgentConfig || {
   n8nBase:        'https://meta.ijvagency.com',
@@ -338,6 +347,7 @@ window.dbritoAgentConfig.webhook      = window.dbritoAgentConfig.webhook      ||
 window.dbritoAgentConfig.leadsWebhook = window.dbritoAgentConfig.leadsWebhook || (window.dbritoAgentConfig.n8nBase + '/webhook/dbrito-leads');
 </script>
 <script src="/widget/dbrito-agent.js" defer></script>
+-->
 
 </body>
 </html>
